@@ -1,0 +1,20 @@
+{
+  "name": "yogineers",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "update" : "git add . && git commit -m 'update' && git push origin main"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yogineerstech/ohms-backend-apis.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/yogineerstech/ohms-backend-apis/issues"
+  },
+  "homepage": "https://github.com/yogineerstech/ohms-backend-apis#readme",
+  "description": ""
+}
