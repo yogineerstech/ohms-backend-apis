@@ -5,9 +5,21 @@ meta {
 }
 
 post {
-  url: http://localhost3000/api/v1/super-admin
-  body: none
+  url: http://localhost:3000/api/v1/super-admin/init
+  body: json
   auth: inherit
+}
+
+body:json {
+  {
+    "firstName": "System",
+    "lastName": "Administrator",
+    "email": "admin@eyehospital.com",
+    "password": "Admin@123",
+    "phone": "+911234567890",
+    "isActive": true
+  }
+  
 }
 
 settings {
