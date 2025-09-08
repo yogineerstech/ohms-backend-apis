@@ -1,0 +1,22 @@
+meta {
+  name: admin login
+  type: http
+  seq: 3
+}
+
+post {
+  url: http://localhost:3000/api/v1/super-admin/loginSuperAdmin
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+     "email": "admin@eyehospital.com",
+    "password": "Admin@123"
+  }
+}
+
+settings {
+  encodeUrl: true
+}
