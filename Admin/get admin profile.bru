@@ -1,0 +1,19 @@
+meta {
+  name: get admin profile
+  type: http
+  seq: 4
+}
+
+get {
+  url: http://localhost:3000/api/v1/super-admin/profile
+  body: none
+  auth: inherit
+}
+
+headers {
+  Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImNtZmIyYXlidjAwMDB0enFnYWM0cWw2aXEiLCJlbWFpbCI6ImFkbWluQHlvZ2luZWVyc3RlY2guaW4iLCJ1c2VyVHlwZSI6InN1cGVyX2FkbWluIiwiaWF0IjoxNzU3MzMyMzUyLCJleHAiOjE3NTc0MTg3NTJ9.4ySzw_xF-YcjpB8mwB6MHlFVhCqpTOQQcoEoGTALcpg
+}
+
+settings {
+  encodeUrl: true
+}
