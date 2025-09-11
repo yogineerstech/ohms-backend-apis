@@ -1,0 +1,25 @@
+meta {
+  name: Admin SignUp
+  type: http
+  seq: 5
+}
+
+post {
+  url: http://localhost:3000/api/v1/super-admin/signup
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "firstName": "System",
+    "lastName": "Administrator",
+    "email": "admin@eyehospital.com",
+    "password": "Admin@123"
+  }
+  
+}
+
+settings {
+  encodeUrl: true
+}
