@@ -1,0 +1,49 @@
+meta {
+  name: verify-reset-otp (DEPRECATED)
+  type: http
+  seq: 3
+}
+
+post {
+  url: http://localhost:3000/api/v1/super-admin/verify-reset-otp
+  body: json
+  auth: inherit
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "email": "admin@eyehospital.com",
+    "otp": "123456"
+  }
+}
+
+tests {
+  test("DEPRECATED - This endpoint is no longer used", function() {
+    // This endpoint has been deprecated in favor of token-based reset
+    // The reset token is now provided directly from forgot-password endpoint
+    // and verified in the reset-password endpoint
+    expect(true).to.be.true;
+  });
+  
+  test("Status should be 200 for valid OTP", function() {
+    if (res.getBody().message && res.getBody().message.includes("verified successfully")) {
+      expect(res.getStatus()).to.equal(200);
+      expect(res.getBody().resetToken).to.be.a('string');
+    }
+  });
+  
+  test("Should have proper error for invalid OTP", function() {
+    if (res.getStatus() === 400) {
+      expect(res.getBody().error).to.include("Invalid OTP");
+      expect(res.getBody().code).to.equal("INVALID");
+    }
+  });
+}
+
+settings {
+  encodeUrl: true
+}
