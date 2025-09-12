@@ -1,0 +1,78 @@
+meta {
+  name: Create Nurse
+  type: http
+  seq: 2
+}
+
+post {
+  url: http://localhost:3000/api/v1/super-admin/staff
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{superAdminToken}}
+}
+
+body:json {
+  {
+    "firstName": "Sarah",
+    "lastName": "Johnson",
+    "email": "sarah.johnson@eyehospital.com",
+    "phone": "+1234567891",
+    "dateOfBirth": "1985-08-20",
+    "gender": "female",
+    "address": "456 Healthcare Ave, City, State",
+    "emergencyContact": {
+      "name": "Mike Johnson",
+      "phone": "+0987654322",
+      "relationship": "husband"
+    },
+    "staffType": "nurse",
+    "department": "ophthalmology",
+    "employmentStatus": "active",
+    "joiningDate": "2024-02-01",
+    "qualifications": ["BSN", "RN License"],
+    "certifications": ["Ophthalmic Nursing Certification"],
+    "languagesSpoken": ["English", "French"],
+    "roleSpecificData": {
+      "nursingLicenseNumber": "RN987654321",
+      "nursingDegree": "Bachelor of Science in Nursing",
+      "shiftType": "day",
+      "yearsOfExperience": 5,
+      "wardAssignment": "Eye Surgery Ward",
+      "specializations": ["Pre-operative Care", "Post-operative Care"],
+      "certificationExpiry": "2026-12-31",
+      "nursingCouncil": "State Nursing Board",
+      "canAdministerMedication": true,
+      "canOperateEquipment": true
+    }
+  }
+}
+
+tests {
+  test("Status should be 201", function() {
+    expect(res.getStatus()).to.equal(201);
+  });
+  
+  test("Should return success message", function() {
+    expect(res.getBody().message).to.equal("Staff created successfully");
+  });
+  
+  test("Should return nurse data", function() {
+    expect(res.getBody().data.staff).to.be.an('object');
+    expect(res.getBody().data.staff.employeeId).to.match(/^NUR\d{4}$/);
+    expect(res.getBody().data.staff.staffType).to.equal("nurse");
+  });
+  
+  test("Should return credentials", function() {
+    expect(res.getBody().data.credentials).to.be.an('object');
+    expect(res.getBody().data.credentials.defaultPassword).to.equal("Nurse@123");
+  });
+  
+  test("Should have nurse-specific profile", function() {
+    expect(res.getBody().data.staff.nurseProfile).to.be.an('object');
+    expect(res.getBody().data.staff.nurseProfile.nursingLicenseNumber).to.equal("RN987654321");
+    expect(res.getBody().data.staff.nurseProfile.shiftType).to.equal("day");
+  });
+}

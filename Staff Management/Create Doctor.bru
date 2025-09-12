@@ -1,0 +1,78 @@
+meta {
+  name: Create Doctor
+  type: http
+  seq: 1
+}
+
+post {
+  url: http://localhost:3000/api/v1/super-admin/staff
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{superAdminToken}}
+}
+
+body:json {
+  {
+    "firstName": "Dr. Arun Dige",
+    "lastName": "Smith",
+    "email": "john.smith@eyehospital.com",
+    "phone": "+1234567890",
+    "dateOfBirth": "1980-05-15",
+    "gender": "male",
+    "address": "123 Medical Center Dr, City, State",
+    "emergencyContact": {
+      "name": "Jane Smith",
+      "phone": "+0987654321",
+      "relationship": "spouse"
+    },
+    "staffType": "doctor",
+    "department": "ophthalmology",
+    "employmentStatus": "active",
+    "joiningDate": "2024-01-15",
+    "qualifications": ["MBBS", "MS Ophthalmology"],
+    "certifications": ["Board Certified Ophthalmologist"],
+    "languagesSpoken": ["English", "Spanish"],
+    "roleSpecificData": {
+      "medicalLicenseNumber": "MD123456789",
+      "medicalCouncil": "State Medical Board",
+      "consultationFee": 200,
+      "followUpFee": 100,
+      "specializations": ["Cataract Surgery", "Retinal Disorders"],
+      "yearsOfExperience": 8,
+      "surgeryTypes": ["Cataract", "LASIK", "Retinal Detachment"],
+      "operatingDays": ["Monday", "Wednesday", "Friday"],
+      "consultationHours": "9:00 AM - 5:00 PM",
+      "maxPatientsPerDay": 20
+    }
+  }
+}
+
+tests {
+  test("Status should be 201", function() {
+    expect(res.getStatus()).to.equal(201);
+  });
+  
+  test("Should return success message", function() {
+    expect(res.getBody().message).to.equal("Staff created successfully");
+  });
+  
+  test("Should return doctor data", function() {
+    expect(res.getBody().data.staff).to.be.an('object');
+    expect(res.getBody().data.staff.employeeId).to.match(/^DOC\d{4}$/);
+    expect(res.getBody().data.staff.staffType).to.equal("doctor");
+  });
+  
+  test("Should return credentials", function() {
+    expect(res.getBody().data.credentials).to.be.an('object');
+    expect(res.getBody().data.credentials.defaultPassword).to.equal("Doctor@123");
+  });
+  
+  test("Should have doctor-specific profile", function() {
+    expect(res.getBody().data.staff.doctorProfile).to.be.an('object');
+    expect(res.getBody().data.staff.doctorProfile.medicalLicenseNumber).to.equal("MD123456789");
+    expect(res.getBody().data.staff.doctorProfile.consultationFee).to.equal(200);
+  });
+}

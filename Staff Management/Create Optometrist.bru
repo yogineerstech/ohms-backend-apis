@@ -1,0 +1,79 @@
+meta {
+  name: Create Optometrist
+  type: http
+  seq: 4
+}
+
+post {
+  url: {{baseUrl}}/api/super-admin/staff
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{superAdminToken}}
+}
+
+body:json {
+  {
+    "firstName": "Dr. Emily",
+    "lastName": "Brown",
+    "email": "emily.brown@eyehospital.com",
+    "phone": "+1234567893",
+    "dateOfBirth": "1982-11-25",
+    "gender": "female",
+    "address": "321 Vision Street, City, State",
+    "emergencyContact": {
+      "name": "David Brown",
+      "phone": "+0987654324",
+      "relationship": "husband"
+    },
+    "staffType": "optometrist",
+    "department": "optometry",
+    "employmentStatus": "active",
+    "joiningDate": "2024-01-20",
+    "qualifications": ["Doctor of Optometry"],
+    "certifications": ["Board Certified Optometrist"],
+    "languagesSpoken": ["English", "German"],
+    "roleSpecificData": {
+      "optometryLicenseNumber": "OD789123456",
+      "optometryDegree": "Doctor of Optometry",
+      "yearsOfExperience": 6,
+      "specializations": ["Pediatric Optometry", "Contact Lens Fitting"],
+      "consultationFee": 150,
+      "followUpFee": 75,
+      "operatingDays": ["Tuesday", "Thursday", "Saturday"],
+      "consultationHours": "8:00 AM - 4:00 PM",
+      "equipmentCertified": ["Phoropter", "Slit Lamp", "Tonometer"],
+      "canPrescribeMedication": true,
+      "maxPatientsPerDay": 15
+    }
+  }
+}
+
+tests {
+  test("Status should be 201", function() {
+    expect(res.getStatus()).to.equal(201);
+  });
+  
+  test("Should return success message", function() {
+    expect(res.getBody().message).to.equal("Staff created successfully");
+  });
+  
+  test("Should return optometrist data", function() {
+    expect(res.getBody().data.staff).to.be.an('object');
+    expect(res.getBody().data.staff.employeeId).to.match(/^OPT\d{4}$/);
+    expect(res.getBody().data.staff.staffType).to.equal("optometrist");
+  });
+  
+  test("Should return credentials", function() {
+    expect(res.getBody().data.credentials).to.be.an('object');
+    expect(res.getBody().data.credentials.defaultPassword).to.equal("Optometrist@123");
+  });
+  
+  test("Should have optometrist-specific profile", function() {
+    expect(res.getBody().data.staff.optometristProfile).to.be.an('object');
+    expect(res.getBody().data.staff.optometristProfile.optometryLicenseNumber).to.equal("OD789123456");
+    expect(res.getBody().data.staff.optometristProfile.consultationFee).to.equal(150);
+  });
+}
