@@ -5,15 +5,15 @@ meta {
 }
 
 post {
-  url: {{baseUrl}}/api/staff/login
+  url: http://localhost:3000/api/v1/staff/login
   body: json
   auth: none
 }
 
 body:json {
   {
-    "employeeId": "EMP001",
-    "password": "staffPassword123"
+    "email": "lisa.anderson@hospital.com",
+    "password": "Admin@123"
   }
 }
 
