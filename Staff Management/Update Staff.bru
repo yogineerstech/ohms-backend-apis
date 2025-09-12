@@ -1,0 +1,43 @@
+meta {
+  name: Update Staff
+  type: http
+  seq: 7
+}
+
+put {
+  url: {{baseUrl}}/api/super-admin/staff/{{staffId}}
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{superAdminToken}}
+}
+
+body:json {
+  {
+    "firstName": "Dr. John Updated",
+    "phone": "+1234567890",
+    "department": "Ophthalmology",
+    "roleSpecificData": {
+      "consultationFee": 175,
+      "followUpFee": 85,
+      "maxPatientsPerDay": 30,
+      "specializations": ["Cataract Surgery", "Retinal Disorders", "Glaucoma Surgery"]
+    }
+  }
+}
+
+tests {
+  test("Status should be 200", function() {
+    expect(res.getStatus()).to.equal(200);
+  });
+  
+  test("Should return success message", function() {
+    expect(res.getBody().success).to.equal(true);
+  });
+  
+  test("Should return updated staff data", function() {
+    expect(res.getBody().data.staff).to.be.an('object');
+  });
+}

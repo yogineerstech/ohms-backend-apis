@@ -1,0 +1,34 @@
+meta {
+  name: Admin Dashboard
+  type: http
+  seq: 9
+}
+
+get {
+  url: {{baseUrl}}/api/staff/admin/dashboard
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{adminToken}}
+}
+
+tests {
+  test("Status should be 200", function() {
+    expect(res.getStatus()).to.equal(200);
+  });
+  
+  test("Should return admin dashboard", function() {
+    expect(res.getBody().message).to.equal("Admin dashboard");
+  });
+  
+  test("Should return user data", function() {
+    expect(res.getBody().data.user).to.be.an('object');
+  });
+  
+  test("Should return admin features", function() {
+    expect(res.getBody().data.features).to.be.an('array');
+    expect(res.getBody().data.features).to.include('User Management');
+  });
+}

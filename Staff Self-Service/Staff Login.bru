@@ -1,0 +1,38 @@
+meta {
+  name: Staff Login
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{baseUrl}}/api/staff/login
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "employeeId": "EMP001",
+    "password": "staffPassword123"
+  }
+}
+
+tests {
+  test("Status should be 200", function() {
+    expect(res.getStatus()).to.equal(200);
+  });
+  
+  test("Should return token", function() {
+    expect(res.getBody().token).to.be.a('string');
+  });
+  
+  test("Should return staff user data", function() {
+    expect(res.getBody().user).to.be.an('object');
+    expect(res.getBody().user.employeeId).to.equal("EMP001");
+  });
+  
+  // Save token for use in other requests
+  if (res.getStatus() === 200) {
+    bru.setVar("staffToken", res.getBody().token);
+  }
+}

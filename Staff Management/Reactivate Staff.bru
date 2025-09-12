@@ -1,0 +1,29 @@
+meta {
+  name: Reactivate Staff
+  type: http
+  seq: 9
+}
+
+patch {
+  url: {{baseUrl}}/api/super-admin/staff/{{staffId}}/reactivate
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{superAdminToken}}
+}
+
+tests {
+  test("Status should be 200", function() {
+    expect(res.getStatus()).to.equal(200);
+  });
+  
+  test("Should return success message", function() {
+    expect(res.getBody().success).to.equal(true);
+  });
+  
+  test("Should confirm reactivation", function() {
+    expect(res.getBody().data.staff.isActive).to.equal(true);
+  });
+}

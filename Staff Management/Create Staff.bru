@@ -1,0 +1,73 @@
+meta {
+  name: Create Staff
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{baseUrl}}/api/super-admin/staff
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{superAdminToken}}
+}
+
+body:json {
+  {
+    "firstName": "Lisa",
+    "lastName": "Anderson",
+    "email": "lisa.anderson@hospital.com",
+    "phone": "+1234567898",
+    "dateOfBirth": "1983-11-25",
+    "gender": "female",
+    "address": {
+      "street": "789 Admin Boulevard",
+      "city": "New York",
+      "state": "NY",
+      "zipCode": "10005",
+      "country": "USA"
+    },
+    "emergencyContact": {
+      "name": "Robert Anderson",
+      "relationship": "husband",
+      "phone": "+1234567899"
+    },
+    "department": "Administration",
+    "staffType": "admin",
+    "employmentStatus": "active",
+    "joiningDate": "2024-01-10",
+    "qualifications": ["MBA Healthcare Management", "Bachelor in Business Administration"],
+    "certifications": ["Certified Healthcare Administrator"],
+    "languagesSpoken": ["English", "German"],
+    "roleSpecificData": {
+      "accessLevel": "department_admin",
+      "systemPermissions": ["User Management", "Report Generation", "System Configuration"],
+      "departmentAccess": ["Administration", "HR", "Finance"],
+      "yearsOfExperience": 8,
+      "managementLevel": "department_head",
+      "budgetAccess": true
+    }
+  }
+}
+
+tests {
+  test("Status should be 201", function() {
+    expect(res.getStatus()).to.equal(201);
+  });
+  
+  test("Should return success message", function() {
+    expect(res.getBody().success).to.equal(true);
+  });
+  
+  test("Should return staff data", function() {
+    expect(res.getBody().data.staff).to.be.an('object');
+    expect(res.getBody().data.staff.employeeId).to.match(/^(DOC|NUR|TEC|ADM|REC|OPT)\d{4}$/);
+  });
+  
+  test("Should return credentials", function() {
+    expect(res.getBody().data.credentials).to.be.an('object');
+    expect(res.getBody().data.credentials.defaultPassword).to.be.a('string');
+  });
+}
