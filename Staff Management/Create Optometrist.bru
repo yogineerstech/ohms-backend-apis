@@ -5,20 +5,20 @@ meta {
 }
 
 post {
-  url: {{baseUrl}}/api/super-admin/staff
+  url: http://localhost:3000/api/v1/super-admin/staff
   body: json
   auth: bearer
 }
 
 auth:bearer {
-  token: {{superAdminToken}}
+  token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImNtZmYzNm5vcjAwMDBsaGswMWc5a2ZwYXAiLCJlbWFpbCI6ImFkbWluQHlvZ2luZWVyc3RlY2guaW4iLCJ1c2VyVHlwZSI6InN1cGVyX2FkbWluIiwiaWF0IjoxNzU3NzQ3NTYzLCJleHAiOjE3NTc4MzM5NjN9.KGwAvg6qJmMGhqdtKOk6R1NtthResNQLurkd6FF8Mnw
 }
 
 body:json {
   {
-    "firstName": "Dr. Emily",
+    "firstName": "Dr.Babli",
     "lastName": "Brown",
-    "email": "emily.brown@eyehospital.com",
+    "email": "babli.brown@eyehospital.com",
     "phone": "+1234567893",
     "dateOfBirth": "1982-11-25",
     "gender": "female",
