@@ -5,13 +5,13 @@ meta {
 }
 
 get {
-  url: http://localhost:3000/api/v1/super-admin/profile
+  url: {{baseUrl}}/api/v1/super-admin/profile
   body: none
   auth: bearer
 }
 
-headers {
-  Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImNtZmYzNm5vcjAwMDBsaGswMWc5a2ZwYXAiLCJlbWFpbCI6ImFkbWluQHlvZ2luZWVyc3RlY2guaW4iLCJ1c2VyVHlwZSI6InN1cGVyX2FkbWluIiwiaWF0IjoxNzU3OTM1OTQxLCJleHAiOjE3NTgwMjIzNDF9.VtyuBS_CMpXblLZtuKgdhTfNfQsoterxhILtUDm9EIg
+auth:bearer {
+  token: {{superAdminToken}}
 }
 
 settings {
