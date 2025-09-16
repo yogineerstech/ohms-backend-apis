@@ -1,11 +1,11 @@
 meta {
-  name: get admin profile
+  name: admin logout
   type: http
-  seq: 4
+  seq: 6
 }
 
-get {
-  url: {{baseUrl}}/api/v1/super-admin/profile
+post {
+  url: {{baseUrl}}/api/v1/super-admin/logout
   body: none
   auth: none
 }

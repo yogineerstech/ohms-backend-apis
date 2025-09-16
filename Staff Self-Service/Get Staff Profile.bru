@@ -5,13 +5,13 @@ meta {
 }
 
 get {
-  url: http://localhost:3000/api/v1/staff/profile
+  url: {{baseUrl}}/api/v1/staff/profile
   body: none
-  auth: bearer
+  auth: none
 }
 
-auth:bearer {
-  token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImNtZmdxaGNoNzAwMDBsaDhvMGMzY21tcDIiLCJlbWFpbCI6Imxpc2EuYW5kZXJzb25AaG9zcGl0YWwuY29tIiwidXNlclR5cGUiOiJzdGFmZiIsInN0YWZmVHlwZSI6ImFkbWluIiwiaWF0IjoxNzU3Njc4NzYxLCJleHAiOjE3NTc3NjUxNjF9.s_jYOHdtq5AR-HILKXeW_NtgHSOftXz2VwE6Yoi1vkY
+headers {
+  Authorization: Bearer {{staffToken}}
 }
 
 tests {

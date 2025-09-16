@@ -6,13 +6,10 @@ meta {
 
 post {
   url: http://localhost:3000/api/v1/super-admin/staff
-  body: json
-  auth: bearer
+  body: jsonauth: none
 }
 
-auth:bearer {
-  token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImNtZmYzNm5vcjAwMDBsaGswMWc5a2ZwYXAiLCJlbWFpbCI6ImFkbWluQHlvZ2luZWVyc3RlY2guaW4iLCJ1c2VyVHlwZSI6InN1cGVyX2FkbWluIiwiaWF0IjoxNzU3NzQ3NTYzLCJleHAiOjE3NTc4MzM5NjN9.KGwAvg6qJmMGhqdtKOk6R1NtthResNQLurkd6FF8Mnw
-}
+
 
 body:json {
   {
@@ -76,4 +73,8 @@ tests {
     expect(res.getBody().data.staff.optometristProfile.optometryLicenseNumber).to.equal("OD789123456");
     expect(res.getBody().data.staff.optometristProfile.consultationFee).to.equal(150);
   });
+}
+
+headers {
+  Cookie: authToken={{superAdminToken}}
 }

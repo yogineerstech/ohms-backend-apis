@@ -6,8 +6,7 @@ meta {
 
 get {
   url: http://localhost:3000/api/v1/super-admin/staff?page=1&limit=10
-  body: none
-  auth: bearer
+  body: noneauth: none
 }
 
 params:query {
@@ -19,9 +18,7 @@ params:query {
   ~search: john
 }
 
-auth:bearer {
-  token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImNtZmYzNm5vcjAwMDBsaGswMWc5a2ZwYXAiLCJlbWFpbCI6ImFkbWluQHlvZ2luZWVyc3RlY2guaW4iLCJ1c2VyVHlwZSI6InN1cGVyX2FkbWluIiwiaWF0IjoxNzU3NzYxNDI0LCJleHAiOjE3NTc4NDc4MjR9.tw2DWf_EgG3gE4tsg_tguUtvcIOGdZ1b1C7nu4xxG_8
-}
+
 
 tests {
   test("Status should be 200", function() {
@@ -41,4 +38,8 @@ tests {
     expect(res.getBody().data.pagination.total).to.be.a('number');
     expect(res.getBody().data.pagination.page).to.be.a('number');
   });
+}
+
+headers {
+  Cookie: authToken={{superAdminToken}}
 }

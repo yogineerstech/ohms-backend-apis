@@ -6,13 +6,10 @@ meta {
 
 put {
   url: http://localhost:3000/api/v1/staff/profile
-  body: json
-  auth: bearer
+  body: jsonauth: none
 }
 
-auth:bearer {
-  token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImNtZmdxaGNoNzAwMDBsaDhvMGMzY21tcDIiLCJlbWFpbCI6Imxpc2EuYW5kZXJzb25AaG9zcGl0YWwuY29tIiwidXNlclR5cGUiOiJzdGFmZiIsInN0YWZmVHlwZSI6ImFkbWluIiwiaWF0IjoxNzU3Njc4ODQ2LCJleHAiOjE3NTc3NjUyNDZ9.9iHig7Z6iicNWZWzaMoJhvQp7saHxFvRL90EowUYRzY
-}
+
 
 body:json {
   {
@@ -39,4 +36,8 @@ tests {
     expect(res.getBody().staff).to.be.an('object');
     expect(res.getBody().staff.phone).to.equal("+1234567890");
   });
+}
+
+headers {
+  Authorization: Bearer {{staffToken}}
 }

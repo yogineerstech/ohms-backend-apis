@@ -6,13 +6,10 @@ meta {
 
 post {
   url: http://localhost:3000/api/v1/super-admin/staff
-  body: json
-  auth: bearer
+  body: jsonauth: none
 }
 
-auth:bearer {
-  token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImNtZmYzNm5vcjAwMDBsaGswMWc5a2ZwYXAiLCJlbWFpbCI6ImFkbWluQHlvZ2luZWVyc3RlY2guaW4iLCJ1c2VyVHlwZSI6InN1cGVyX2FkbWluIiwiaWF0IjoxNzU3NjgwMzA1LCJleHAiOjE3NTc3NjY3MDV9.Feg3tvzxEs2qMPXz1fYR1u8jRyZTbwI4JXcvehe1TEo
-}
+
 
 body:json {
   {
@@ -75,4 +72,8 @@ tests {
     expect(res.getBody().data.staff.doctorProfile.medicalLicenseNumber).to.equal("MD123456789");
     expect(res.getBody().data.staff.doctorProfile.consultationFee).to.equal(200);
   });
+}
+
+headers {
+  Cookie: authToken={{superAdminToken}}
 }
