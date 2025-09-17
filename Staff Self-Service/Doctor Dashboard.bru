@@ -7,11 +7,10 @@ meta {
 get {
   url: http://localhost:3000/api/v1/staff/doctor/dashboard
   body: none
-  auth: bearer
+auth: none
 }
 
-auth:bearer {
-  token: 
+}
 }
 
 tests {
@@ -31,4 +30,8 @@ tests {
     expect(res.getBody().data.features).to.be.an('array');
     expect(res.getBody().data.features).to.include('Patient Management');
   });
+}
+
+headers {
+  Authorization: Bearer {{staffToken}}
 }

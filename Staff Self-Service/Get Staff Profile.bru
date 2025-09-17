@@ -5,18 +5,13 @@ meta {
 }
 
 get {
-  url: http://localhost:3000/api/v1/staff/profile
+  url: {{baseUrl}}/api/v1/staff/profile
   body: none
-  auth: bearer
+  auth: none
 }
 
 headers {
-  Cookie: authToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImNtZmk3NDZsdjAwMDFsaHc4ZjBjYW1ta3giLCJlbWFpbCI6ImJhbGJsaWdyZWVud2FsaUBnbWFpbC5jb20iLCJ1c2VyVHlwZSI6InN0YWZmIiwic3RhZmZUeXBlIjoiZG9jdG9yIiwiaWF0IjoxNzU4MDIyMjM3LCJleHAiOjE3NTgxMDg2Mzd9.CzeAEC8PrpJEjvwCwIZh8CadwmKS7OOneO90fEbHHSs; Max-Age=86400; Path=/; Expires=Wed, 17 Sep 2025 11:30:39 GMT; HttpOnly; SameSite=Strict
-  ~authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImNtZmwxYXNtNjAwMDBsaDNzZnJqcGJsMjEiLCJlbWFpbCI6ImFua3VzaGRpd2FrYXI4MDgwQGdtYWlsLmNvbSIsInVzZXJUeXBlIjoic3RhZmYiLCJzdGFmZlR5cGUiOiJxdWFsaXR5LWNvb3JkaW5hdG9yIiwiaWF0IjoxNzU3OTM1ODI4LCJleHAiOjE3NTgwMjIyMjh9.CUAvULnb11psgORTmzm3y55_w1c_AgeX0yIr8YZri3k
-}
-
-auth:bearer {
-  token: 
+  Authorization: Bearer {{staffToken}}
 }
 
 tests {

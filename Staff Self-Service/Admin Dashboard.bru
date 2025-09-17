@@ -6,13 +6,10 @@ meta {
 
 get {
   url: http://localhost:3000/api/v1/staff/admin/dashboard
-  body: none
-  auth: bearer
+  body: noneauth: none
 }
 
-auth:bearer {
-  token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImNtZmdxaGNoNzAwMDBsaDhvMGMzY21tcDIiLCJlbWFpbCI6Imxpc2EuYW5kZXJzb25AaG9zcGl0YWwuY29tIiwidXNlclR5cGUiOiJzdGFmZiIsInN0YWZmVHlwZSI6ImFkbWluIiwiaWF0IjoxNzU3Njc3NzczLCJleHAiOjE3NTc3NjQxNzN9.kP9NQb4yMv38CnU-QQqOMFuFReJ9BLvafsZdx7GLTTc
-}
+
 
 tests {
   test("Status should be 200", function() {
@@ -31,4 +28,8 @@ tests {
     expect(res.getBody().data.features).to.be.an('array');
     expect(res.getBody().data.features).to.include('User Management');
   });
+}
+
+headers {
+  Authorization: Bearer {{staffToken}}
 }

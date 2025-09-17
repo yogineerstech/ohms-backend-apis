@@ -5,13 +5,17 @@ meta {
 }
 
 get {
-  url: http://localhost:3000/api/v1/super-admin/profile
+  url: {{baseUrl}}/api/v1/super-admin/profile
   body: none
-  auth: bearer
+  auth: none
 }
 
 headers {
+<<<<<<< HEAD
   Cookie: authToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImNtZmk3NDZsdjAwMDFsaHc4ZjBjYW1ta3giLCJlbWFpbCI6ImJhbGJsaWdyZWVud2FsaUBnbWFpbC5jb20iLCJ1c2VyVHlwZSI6InN0YWZmIiwic3RhZmZUeXBlIjoiZG9jdG9yIiwiaWF0IjoxNzU4MDE4MzYyLCJleHAiOjE3NTgxMDQ3NjJ9.9_t0V8rUMIWEO1DkDHsFATBTHBYqBZ1WbCvPzclkPmU; Max-Age=86400; Path=/; Expires=Wed, 17 Sep 2025 10:26:03 GMT; HttpOnly; SameSite=Strict
+=======
+  Cookie: authToken={{superAdminToken}}
+>>>>>>> f6b6c909fefdd853105ddd0c3eec82cad1dd5895
 }
 
 settings {

@@ -6,13 +6,10 @@ meta {
 
 post {
   url: http://localhost:3000/api/v1/super-admin/staff
-  body: json
-  auth: bearer
+  body: jsonauth: none
 }
 
-auth:bearer {
-  token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImNtZmYzNm5vcjAwMDBsaGswMWc5a2ZwYXAiLCJlbWFpbCI6ImFkbWluQHlvZ2luZWVyc3RlY2guaW4iLCJ1c2VyVHlwZSI6InN1cGVyX2FkbWluIiwiaWF0IjoxNzU3Njc1MjQ2LCJleHAiOjE3NTc3NjE2NDZ9.gthqWT1IMwgBZ9R1fcNNV_TzpURUbQr6ZK9ZcatxKp8
-}
+
 
 body:json {
   {
@@ -70,4 +67,8 @@ tests {
     expect(res.getBody().data.credentials).to.be.an('object');
     expect(res.getBody().data.credentials.defaultPassword).to.be.a('string');
   });
+}
+
+headers {
+  Cookie: authToken={{superAdminToken}}
 }

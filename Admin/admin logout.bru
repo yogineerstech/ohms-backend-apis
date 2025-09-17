@@ -1,0 +1,19 @@
+meta {
+  name: admin logout
+  type: http
+  seq: 6
+}
+
+post {
+  url: {{baseUrl}}/api/v1/super-admin/logout
+  body: none
+  auth: none
+}
+
+headers {
+  Cookie: authToken={{superAdminToken}}
+}
+
+settings {
+  encodeUrl: true
+}

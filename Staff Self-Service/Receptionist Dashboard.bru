@@ -6,12 +6,10 @@ meta {
 
 get {
   url: http://localhost:3000/api/v1/staff/receptionist/dashboard
-  body: none
-  auth: bearer
+  body: noneauth: none
 }
 
-auth:bearer {
-  token: {{receptionistToken}}
+}
 }
 
 tests {
@@ -31,4 +29,8 @@ tests {
     expect(res.getBody().data.features).to.be.an('array');
     expect(res.getBody().data.features).to.include('Appointment Booking');
   });
+}
+
+headers {
+  Authorization: Bearer {{staffToken}}
 }
