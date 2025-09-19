@@ -1,0 +1,19 @@
+meta {
+  name: Staff profile Check
+  type: http
+  seq: 6
+}
+
+get {
+  url: http://localhost:3000/api/v1/staff/profile
+  body: none
+  auth: inherit
+}
+
+headers {
+  Cookie: authToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImNtZmk3NDZsdjAwMDFsaHc4ZjBjYW1ta3giLCJlbWFpbCI6ImJhbGJsaWdyZWVud2FsaUBnbWFpbC5jb20iLCJ1c2VyVHlwZSI6InN0YWZmIiwic3RhZmZUeXBlIjoiZG9jdG9yIiwiaWF0IjoxNzU4MDkwMDIxLCJleHAiOjE3NTgxNzY0MjF9.oAv2qiB2mQDqaOsz8XU3kENXZV3bhPIbhge7dq1THII; Max-Age=86400; Path=/; Expires=Thu, 18 Sep 2025 06:20:22 GMT; HttpOnly; SameSite=Strict
+}
+
+settings {
+  encodeUrl: true
+}

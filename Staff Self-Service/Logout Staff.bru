@@ -1,0 +1,19 @@
+meta {
+  name: Logout Staff
+  type: http
+  seq: 7
+}
+
+post {
+  url: http://localhost:3000/api/v1/staff/logout
+  body: none
+  auth: inherit
+}
+
+headers {
+  Cookie: authToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImNtZmk3NDZsdjAwMDFsaHc4ZjBjYW1ta3giLCJlbWFpbCI6ImJhbGJsaWdyZWVud2FsaUBnbWFpbC5jb20iLCJ1c2VyVHlwZSI6InN0YWZmIiwic3RhZmZUeXBlIjoiZG9jdG9yIiwiaWF0IjoxNzU4MTA4OTczLCJleHAiOjE3NTgxOTUzNzN9.smmuHLM31MmDe2adfXtFs4q30pdBF7QAoLD_qpEenVo; Max-Age=86400; Path=/; Expires=Thu, 18 Sep 2025 11:36:13 GMT; HttpOnly; SameSite=Strict
+}
+
+settings {
+  encodeUrl: true
+}

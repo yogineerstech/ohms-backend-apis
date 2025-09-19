@@ -1,0 +1,19 @@
+meta {
+  name: Admin Profile
+  type: http
+  seq: 9
+}
+
+get {
+  url: http://localhost:3000/api/v1/super-admin/profile
+  body: none
+  auth: inherit
+}
+
+headers {
+  Cookie: authToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImNtZmYzNm5vcjAwMDBsaGswMWc5a2ZwYXAiLCJlbWFpbCI6ImFkbWluQHlvZ2luZWVyc3RlY2guaW4iLCJ1c2VyVHlwZSI6InN1cGVyX2FkbWluIiwiaWF0IjoxNzU4MDg5OTAyLCJleHAiOjE3NTgxNzYzMDJ9.30E4HObK-eEUAZy4_WjelkrnJOCOGkKfFJPgC27QWg0; Max-Age=86400; Path=/; Expires=Thu, 18 Sep 2025 06:18:22 GMT; HttpOnly; SameSite=Strict
+}
+
+settings {
+  encodeUrl: true
+}

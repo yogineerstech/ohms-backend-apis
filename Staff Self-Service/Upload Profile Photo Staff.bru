@@ -1,0 +1,23 @@
+meta {
+  name: Upload Profile Photo Staff
+  type: http
+  seq: 8
+}
+
+post {
+  url: http://localhost:3000/api/v1/staff/upload-profile-photo
+  body: multipartForm
+  auth: inherit
+}
+
+headers {
+  Cookie: authToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImNtZm1jMmxoYTAwMDBsaDFrb3p3ZjU2NHkiLCJlbWFpbCI6ImFua3VzaGRpd2FrYXI4MDgwQGdtYWlsLmNvbSIsInVzZXJUeXBlIjoic3RhZmYiLCJzdGFmZlR5cGUiOiJhY2NvdW50YW50IiwiaWF0IjoxNzU4MTE1MDUxLCJleHAiOjE3NTgyMDE0NTF9.lwY89LjycqYcAtPwbJwQZYSKJojoCUEohhVh8088kVY; Max-Age=86400; Path=/; Expires=Thu, 18 Sep 2025 13:17:31 GMT; HttpOnly; SameSite=Strict
+}
+
+body:multipart-form {
+  profilePhoto: @file(C:\Users\HP\Desktop\profilepics\p5.jpeg)
+}
+
+settings {
+  encodeUrl: true
+}

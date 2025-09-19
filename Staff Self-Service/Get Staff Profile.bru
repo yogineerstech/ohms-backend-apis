@@ -5,13 +5,13 @@ meta {
 }
 
 get {
-  url: {{baseUrl}}/api/v1/staff/profile
+  url: http://localhost:3000/api/v1/staff/profile
   body: none
   auth: none
 }
 
 headers {
-  Authorization: Bearer {{staffToken}}
+  Authorization: authToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImNtZnFvaGhudzAwMDNsaGgwYWU0b29va3MiLCJlbWFpbCI6InNodWJoYW1kaWdlMjlAZ21haWwuY29tIiwidXNlclR5cGUiOiJzdGFmZiIsInN0YWZmVHlwZSI6InBhdGllbnQtc2FmZXR5LW9mZmljZXIiLCJpYXQiOjE3NTgyODA5NTQsImV4cCI6MTc1ODM2NzM1NH0.FWuUavdCVlOwoffTmVCHiq0CaIQxCS2N2WIyjPF-aw0; Max-Age=86400; Path=/; Expires=Sat, 20 Sep 2025 11:22:35 GMT; HttpOnly; SameSite=Strict
 }
 
 tests {
