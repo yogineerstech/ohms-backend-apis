@@ -1,0 +1,59 @@
+meta {
+  name: Get Patient by Number
+  type: http
+  seq: 4
+}
+
+get {
+  url: http://localhost:3000/api/v1/patients/PAT676159
+  body: none
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+}
+
+tests {
+  test("Status is 200", function() {
+    expect(res.getStatus()).to.equal(200);
+  });
+  
+  test("Response has patient data", function() {
+    const body = res.getBody();
+    expect(body.data).to.have.property('patientNumber');
+    expect(body.data).to.have.property('mrn');
+    expect(body.data).to.have.property('firstName');
+    expect(body.data).to.have.property('lastName');
+  });
+  
+  test("Patient number matches request", function() {
+    const body = res.getBody();
+    expect(body.data.patientNumber).to.equal('PAT123456');
+  });
+}
+
+docs {
+  # Get Patient by Patient Number
+  
+  This endpoint retrieves patient information using the patient number.
+  
+  ## URL Parameters
+  - `patientNumber` (string, required): The patient's unique patient number (format: PAT followed by 6 digits)
+  
+  ## Example Patient Numbers
+  - PAT123456
+  - PAT789012
+  - PAT345678
+  
+  ## Response
+  - Success: Returns complete patient information
+  - Error: Patient not found or invalid patient number
+  
+  ## Patient Data Returned
+  - Patient Number
+  - MRN (Medical Record Number)
+  - Personal information (name, DOB, contact details)
+  - Registration date
+  - Patient status
+}

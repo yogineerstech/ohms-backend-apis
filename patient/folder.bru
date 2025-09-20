@@ -1,0 +1,75 @@
+meta {
+  name: patient
+}
+
+docs {
+  # Patient Management API Collection
+  
+  This collection contains all the API endpoints for patient registration and management in the OHMS (Ophthalmology Hospital Management System).
+  
+  ## Overview
+  
+  The Patient API provides endpoints for:
+  - Patient registration with OTP verification
+  - Patient lookup and information retrieval
+  - Patient statistics and analytics
+  
+  ## Authentication
+  
+  Currently, patient endpoints do not require authentication. Future versions may include patient authentication tokens.
+  
+  ## Base URL
+  
+  All endpoints use the base URL: `{{base_url}}/api/v1/patients`
+  
+  ## Rate Limiting
+  
+  - Send OTP: 3 requests per 15 minutes per email
+  - Resend OTP: 2 requests per 5 minutes per email
+  
+  ## Patient Registration Flow
+  
+  1. **Send OTP** - Request OTP for email and mobile verification
+  2. **Verify OTP** - Submit OTP with patient details to complete registration
+  3. **Resend OTP** - Request new OTP if needed
+  
+  ## Patient Identifiers
+  
+  Each patient receives unique identifiers:
+  - **Patient Number**: Format PAT + 6 digits (e.g., PAT123456)
+  - **MRN**: Format MRN + 8 digits (e.g., MRN12345678)
+  
+  ## Error Handling
+  
+  All endpoints return consistent error responses:
+  ```json
+  {
+    "success": false,
+    "message": "Error description"
+  }
+  ```
+  
+  ## Success Responses
+  
+  All endpoints return consistent success responses:
+  ```json
+  {
+    "success": true,
+    "message": "Success description",
+    "data": { ... }
+  }
+  ```
+  
+  ## Testing
+  
+  This collection includes comprehensive test cases for:
+  - Valid request scenarios
+  - Input validation
+  - Error conditions
+  - Edge cases
+  
+  ## Environment Variables
+  
+  Make sure to set the following environment variable:
+  - `base_url`: Your API base URL (e.g., http://localhost:3000)
+}

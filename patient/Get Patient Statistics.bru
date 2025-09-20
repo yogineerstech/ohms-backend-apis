@@ -1,0 +1,76 @@
+meta {
+  name: Get Patient Statistics
+  type: http
+  seq: 5
+}
+
+get {
+  url: http://localhost:3000/api/v1/patients/statistics/overview
+  body: none
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+}
+
+tests {
+  test("Status is 200", function() {
+    expect(res.getStatus()).to.equal(200);
+  });
+  
+  test("Response has statistics data", function() {
+    const body = res.getBody();
+    expect(body.data).to.have.property('total');
+    expect(body.data).to.have.property('active');
+    expect(body.data).to.have.property('todayRegistrations');
+    expect(body.data).to.have.property('timestamp');
+  });
+  
+  test("Statistics are numbers", function() {
+    const body = res.getBody();
+    expect(body.data.total).to.be.a('number');
+    expect(body.data.active).to.be.a('number');
+    expect(body.data.todayRegistrations).to.be.a('number');
+  });
+  
+  test("Active patients should not exceed total", function() {
+    const body = res.getBody();
+    expect(body.data.active).to.be.at.most(body.data.total);
+  });
+}
+
+docs {
+  # Get Patient Statistics Overview
+  
+  This endpoint retrieves comprehensive statistics about patients in the system.
+  
+  ## No Parameters Required
+  This is a simple GET request that returns overall patient statistics.
+  
+  ## Statistics Included
+  - `total`: Total number of patients in the system
+  - `active`: Number of active patients
+  - `todayRegistrations`: Number of patients registered today
+  - `timestamp`: When the statistics were generated
+  
+  ## Use Cases
+  - Dashboard analytics
+  - Administrative reporting
+  - System monitoring
+  - Patient growth tracking
+  
+  ## Response Format
+  ```json
+  {
+    "success": true,
+    "message": "Patient statistics retrieved successfully",
+    "data": {
+      "total": 150,
+      "active": 142,
+      "todayRegistrations": 5,
+      "timestamp": "2025-09-20T10:30:00.000Z"
+    }
+  }
+  ```
+}

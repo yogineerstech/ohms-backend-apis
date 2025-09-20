@@ -1,0 +1,50 @@
+meta {
+  name: Patient Not Found Test
+  type: http
+  seq: 10
+}
+
+get {
+  url: {{base_url}}/api/v1/patients/PAT999999
+  body: none
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+}
+
+docs {
+  # Test Case: Patient Not Found
+  
+  This test case validates the behavior when requesting a non-existent patient.
+  
+  ## Expected Behavior
+  - Should return 404 status code
+  - Should return error message indicating patient not found
+  - Should not return any patient data
+  
+  ## Test Data
+  - Non-existent patient number: PAT999999
+  
+  ## Valid Patient Number Format
+  - Format: PAT followed by 6 digits
+  - This test uses a number that shouldn't exist in the system
+}
+
+tests {
+  test("Status is 404 for non-existent patient", function() {
+    expect(res.getStatus()).to.equal(404);
+  });
+  
+  test("Response indicates patient not found", function() {
+    const body = res.getBody();
+    expect(body.success).to.equal(false);
+    expect(body.message).to.include('not found');
+  });
+  
+  test("No patient data returned", function() {
+    const body = res.getBody();
+    expect(body).to.not.have.property('data');
+  });
+}

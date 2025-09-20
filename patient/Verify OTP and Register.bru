@@ -1,0 +1,77 @@
+meta {
+  name: Verify OTP and Register
+  type: http
+  seq: 2
+}
+
+post {
+  url: http://localhost:3000/api/v1/patients/verify-otp
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+   
+     "firstName" : "Arun",
+    "lastName" : "Gaikward",
+    "dateOfBirth" : "1990-01-15",
+      "gender" : "male",
+     "otp": "4264",
+    "email": "arungaikwad7517@gmail.com",
+    "mobileNumber": "9876543210"
+  }
+}
+
+tests {
+  test("Status is 201", function() {
+    expect(res.getStatus()).to.equal(201);
+  });
+  
+  test("Response has patient data", function() {
+    const body = res.getBody();
+    expect(body.data).to.have.property('patientNumber');
+    expect(body.data).to.have.property('mrn');
+    expect(body.data).to.have.property('firstName');
+    expect(body.data).to.have.property('lastName');
+  });
+  
+  test("Patient number format is correct", function() {
+    const body = res.getBody();
+    expect(body.data.patientNumber).to.match(/^PAT\d{6}$/);
+  });
+  
+  test("MRN format is correct", function() {
+    const body = res.getBody();
+    expect(body.data.mrn).to.match(/^MRN\d{8}$/);
+  });
+}
+
+docs {
+  # Verify OTP and Register Patient
+  
+  This endpoint verifies the 4-digit OTP and completes the patient registration process.
+  
+  ## Request Body
+  - `email` (string, required): Patient's email address
+  - `mobileNumber` (string, required): Patient's mobile number
+  - `otp` (string, required): 4-digit OTP received via email/SMS
+  - `firstName` (string, required): Patient's first name
+  - `lastName` (string, required): Patient's last name
+  - `dateOfBirth` (string, optional): Patient's date of birth (YYYY-MM-DD format)
+  
+  ## Process
+  1. Validates OTP format (4 digits)
+  2. Verifies OTP against database
+  3. Checks for duplicate registration
+  4. Creates patient with auto-generated Patient Number and MRN
+  5. Returns patient details
+  
+  ## Response
+  - Success: Returns patient details with Patient Number and MRN
+  - Error: Invalid OTP, validation errors, or duplicate registration
+}

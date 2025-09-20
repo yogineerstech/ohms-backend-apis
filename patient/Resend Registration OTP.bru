@@ -1,0 +1,66 @@
+meta {
+  name: Resend Registration OTP
+  type: http
+  seq: 3
+}
+
+post {
+  url: http://localhost:3000/api/v1/patients/resend-otp
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "firstName" : "Ankush",
+    "lastName" : "Diwakar",
+    "dateOfBirth" : "1990-01-15",
+    "email": "ankushdiwakar8080@gmail.com",
+    "mobileNumber": "9876543210"
+  }
+}
+
+tests {
+  test("Status is 200", function() {
+    expect(res.getStatus()).to.equal(200);
+  });
+  
+  test("Response has success field", function() {
+    expect(res.getBody()).to.have.property('success');
+    expect(res.getBody().success).to.equal(true);
+  });
+  
+  test("Response contains resent confirmation", function() {
+    const body = res.getBody();
+    expect(body.message).to.include('resent');
+  });
+}
+
+docs {
+  # Resend Registration OTP
+  
+  This endpoint resends the 4-digit OTP to the patient's email and mobile number.
+  
+  ## Request Body
+  - `email` (string, required): Patient's email address
+  - `mobileNumber` (string, required): Patient's mobile number
+  
+  ## Rate Limiting
+  - More restrictive than initial send: 2 requests per 5 minutes
+  - Invalidates previous OTPs for the same identifier
+  
+  ## Process
+  1. Validates email and mobile number
+  2. Checks rate limiting
+  3. Generates new OTP (invalidates previous ones)
+  4. Sends OTP via email and SMS
+  5. Returns confirmation
+  
+  ## Response
+  - Success: Returns new OTP details and expiration time
+  - Error: Rate limiting exceeded or validation errors
+}

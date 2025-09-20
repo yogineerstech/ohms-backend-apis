@@ -1,0 +1,58 @@
+meta {
+  name: Invalid OTP Format Test
+  type: http
+  seq: 8
+}
+
+post {
+  url: {{base_url}}/api/v1/patients/verify-otp
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "email": "john.doe@example.com",
+    "mobileNumber": "9876543210",
+    "otp": "12345",
+    "firstName": "John",
+    "lastName": "Doe",
+    "dateOfBirth": "1990-01-15"
+  }
+}
+
+docs {
+  # Test Case: Invalid OTP Format
+  
+  This test case validates the OTP format validation in the verify OTP endpoint.
+  
+  ## Expected Behavior
+  - Should return 400 status code
+  - Should return error message about OTP format
+  - Should not proceed with registration
+  
+  ## Test Data
+  - Valid email and mobile
+  - Invalid OTP: "12345" (5 digits instead of 4)
+  - Valid personal information
+  
+  ## Valid OTP Format
+  - Must be exactly 4 digits
+  - Examples: 1234, 5678, 9012
+}
+
+tests {
+  test("Status is 400 for invalid OTP format", function() {
+    expect(res.getStatus()).to.equal(400);
+  });
+  
+  test("Response indicates OTP format error", function() {
+    const body = res.getBody();
+    expect(body.success).to.equal(false);
+    expect(body.message).to.include('4 digits');
+  });
+}
