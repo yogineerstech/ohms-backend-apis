@@ -1,0 +1,19 @@
+meta {
+  name: Get patient profile
+  type: http
+  seq: 9
+}
+
+get {
+  url: http://localhost:3000/api/v1/patients/profile
+  body: none
+  auth: inherit
+}
+
+headers {
+  Cookie: authToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImNtZnc1bHcwdTAwMDJsaDJ3bTdodWo5ajAiLCJlbWFpbCI6ImFua3VzaGRpd2FrYXI4MDgwQGdtYWlsLmNvbSIsInVzZXJUeXBlIjoicGF0aWVudCIsInBhdGllbnROdW1iZXIiOiJQQVQ4OTAyMDQiLCJpYXQiOjE3NTg2MDc5NjIsImV4cCI6MTc1ODY5NDM2Mn0.MIvpGJJtB8zYxOXx368FVb00ve0QwPU6TikVj257P8k; Max-Age=86400; Path=/; Expires=Wed, 24 Sep 2025 06:12:42 GMT; HttpOnly; SameSite=Strict
+}
+
+settings {
+  encodeUrl: true
+}
