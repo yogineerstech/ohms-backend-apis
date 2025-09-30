@@ -1,0 +1,19 @@
+meta {
+  name: Get todays appointment
+  type: http
+  seq: 10
+}
+
+get {
+  url: http://localhost:3000/api/v1/staff/today-appointments
+  body: none
+  auth: inherit
+}
+
+headers {
+  ~Cookie: authToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImNtZzBma2QxajAwMDFsaDNzcWR6YXhjYjgiLCJlbWFpbCI6ImFkbWluQHlvZ2luZWVyc3RlY2guaW4iLCJ1c2VyVHlwZSI6InN0YWZmIiwic3RhZmZUeXBlIjoicmVjZXB0aW9uaXN0IiwiaWF0IjoxNzU5MTQxMDgwLCJleHAiOjE3NTkyMjc0ODB9.K0uXYteD-TZ5kH3Gf8BXOTqn9rrg69yDXdaP8hIg3lc; Max-Age=86400; Path=/; Expires=Tue, 30 Sep 2025 10:18:01 GMT; HttpOnly; SameSite=Strict
+}
+
+settings {
+  encodeUrl: true
+}
