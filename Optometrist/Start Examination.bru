@@ -1,0 +1,39 @@
+meta {
+  name: Start Examination
+  type: http
+  seq: 3
+}
+
+patch {
+  url: {{base_url}}/api/v1/optometrist/queue/{{queue_entry_id}}/start
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{optometrist_token}}
+}
+
+vars:pre-request {
+  base_url: http://localhost:3000
+  queue_entry_id: queue_entry_id_here
+}
+
+assert {
+  res.status: eq 200
+  res.body.success: eq true
+  res.body.data.queueEntry.status: eq IN_PROGRESS
+  res.body.data.examiner: isDefined
+}
+
+docs {
+  Start examination for a patient.
+  
+  This endpoint:
+  1. Changes queue status to IN_PROGRESS
+  2. Updates patient visit status to WITH_OPTOMETRIST
+  3. Records examination start timestamp
+  4. Assigns optometrist to the patient
+  
+  Use the queue entry ID from the queue list.
+}

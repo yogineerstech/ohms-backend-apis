@@ -1,0 +1,40 @@
+meta {
+  name: Get Optometrist Queue
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{base_url}}/api/v1/optometrist/queue
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{optometrist_token}}
+}
+
+vars:pre-request {
+  base_url: http://localhost:3000
+}
+
+assert {
+  res.status: eq 200
+  res.body.success: eq true
+  res.body.data.queueFor: eq OPTOMETRIST
+  res.body.data.statistics: isDefined
+  res.body.data.queueEntries: isArray
+}
+
+docs {
+  Get all patients in the optometrist queue.
+  
+  Returns:
+  - Queue statistics (total, waiting, in progress, completed)
+  - All queue entries with patient details
+  - Appointment information
+  - Visit details
+  - Doctor information
+  
+  Queue entries are sorted by queue number (FCFS order).
+}

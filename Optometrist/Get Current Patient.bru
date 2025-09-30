@@ -1,0 +1,35 @@
+meta {
+  name: Get Current Patient
+  type: http
+  seq: 6
+}
+
+get {
+  url: {{base_url}}/api/v1/optometrist/current-patient
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{optometrist_token}}
+}
+
+vars:pre-request {
+  base_url: http://localhost:3000
+}
+
+assert {
+  res.status: eq 200
+  res.body.success: eq true
+}
+
+docs {
+  Get the current patient being examined by the optometrist.
+  
+  Returns:
+  - Current patient details (if any)
+  - Queue entry information
+  - Examination start time
+  
+  Returns null if no patient is currently being examined.
+}

@@ -1,0 +1,49 @@
+meta {
+  name: Add Patient to Queue
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{base_url}}/api/v1/staff/queue/add-patient
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{staff_token}}
+}
+
+body:json {
+  {
+    "tokenNumber": "1234",
+    "priorityLabel": "ROUTINE"
+  }
+}
+
+vars:pre-request {
+  base_url: http://localhost:3000
+}
+
+assert {
+  res.status: eq 200
+  res.body.success: eq true
+  res.body.data.appointment: isDefined
+  res.body.data.patientVisit: isDefined
+  res.body.data.queueInfo: isDefined
+}
+
+docs {
+  Add patient to optometrist queue using appointment token number.
+  
+  **Priority Labels:**
+  - PRIORITY - High priority patients
+  - EMERGENCY - Emergency cases
+  - CHILDREN - Pediatric patients
+  - SENIORS - Senior citizens
+  - LONGWAIT - Patients who have waited long
+  - REFERRAL - Referred patients
+  - FOLLOWUP - Follow-up visits
+  - ROUTINE - Regular appointments (default)
+  - PREPOSTOP - Pre/post operative patients
+}

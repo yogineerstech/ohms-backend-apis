@@ -1,0 +1,38 @@
+meta {
+  name: Get Appointment by Token
+  type: http
+  seq: 6
+}
+
+get {
+  url: {{base_url}}/api/v1/staff/patient/appointment/{{token_number}}
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{staff_token}}
+}
+
+vars:pre-request {
+  base_url: http://localhost:3000
+  token_number: 1234
+}
+
+assert {
+  res.status: eq 200
+  res.body.success: eq true
+  res.body.data.appointment: isDefined
+  res.body.data.patient: isDefined
+}
+
+docs {
+  Get appointment details by token number (Staff access).
+  
+  Returns:
+  - Appointment information
+  - Patient details
+  - Doctor information
+  - Visit information (if checked in)
+  - Queue information (if in queue)
+}

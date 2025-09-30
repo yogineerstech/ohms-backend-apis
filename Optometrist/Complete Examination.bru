@@ -1,0 +1,38 @@
+meta {
+  name: Complete Examination
+  type: http
+  seq: 4
+}
+
+patch {
+  url: {{base_url}}/api/v1/optometrist/queue/{{queue_entry_id}}/complete
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{optometrist_token}}
+}
+
+vars:pre-request {
+  base_url: http://localhost:3000
+  queue_entry_id: queue_entry_id_here
+}
+
+assert {
+  res.status: eq 200
+  res.body.success: eq true
+  res.body.data.queueEntry.status: eq COMPLETED
+  res.body.data.completedBy: isDefined
+}
+
+docs {
+  Complete examination for a patient.
+  
+  This endpoint:
+  1. Changes queue status to COMPLETED
+  2. Updates patient visit status to AWAITING_DOCTOR
+  3. Records examination completion timestamp
+  
+  After completion, patient moves to the next stage of care.
+}

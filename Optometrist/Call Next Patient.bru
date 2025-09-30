@@ -1,0 +1,39 @@
+meta {
+  name: Call Next Patient
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{base_url}}/api/v1/optometrist/queue/call-next
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{optometrist_token}}
+}
+
+vars:pre-request {
+  base_url: http://localhost:3000
+}
+
+assert {
+  res.status: eq 200
+  res.body.success: eq true
+  res.body.data.queueEntry.status: eq CALLED
+  res.body.data.patient: isDefined
+  res.body.data.calledBy: isDefined
+}
+
+docs {
+  Call the next patient in the optometrist queue.
+  
+  This endpoint:
+  1. Finds the next waiting patient (FCFS order)
+  2. Changes queue status from WAITING to CALLED
+  3. Assigns the optometrist to the patient
+  4. Records the call timestamp
+  
+  Returns the called patient information.
+}

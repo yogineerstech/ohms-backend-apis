@@ -1,0 +1,44 @@
+meta {
+  name: Patient Check-in by Staff
+  type: http
+  seq: 5
+}
+
+post {
+  url: {{base_url}}/api/v1/staff/patient/checkin
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{staff_token}}
+}
+
+body:json {
+  {
+    "tokenNumber": "1234",
+    "priorityLabel": "ROUTINE"
+  }
+}
+
+vars:pre-request {
+  base_url: http://localhost:3000
+}
+
+assert {
+  res.status: eq 200
+  res.body.success: eq true
+  res.body.data.appointment.status: eq CHECKED_IN
+  res.body.data.patientVisit: isDefined
+  res.body.data.queueInfo: isDefined
+}
+
+docs {
+  Check in patient using appointment token number (Staff access).
+  
+  This endpoint:
+  1. Changes appointment status from SCHEDULED to CHECKED_IN
+  2. Creates PatientVisit record with incremented visitNumber
+  3. Adds patient to OPTOMETRIST queue
+  4. Returns complete check-in information
+}

@@ -1,0 +1,51 @@
+meta {
+  name: Update Queue Priority
+  type: http
+  seq: 3
+}
+
+patch {
+  url: {{base_url}}/api/v1/staff/queue/update-priority/{{queue_entry_id}}
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{staff_token}}
+}
+
+body:json {
+  {
+    "priorityLabel": "EMERGENCY"
+  }
+}
+
+vars:pre-request {
+  base_url: http://localhost:3000
+  queue_entry_id: queue_entry_id_here
+}
+
+assert {
+  res.status: eq 200
+  res.body.success: eq true
+  res.body.data.queueEntry: isDefined
+  res.body.data.patient: isDefined
+  res.body.data.updatedBy: isDefined
+}
+
+docs {
+  Update priority label for a patient in the queue.
+  
+  **Valid Priority Labels:**
+  - PRIORITY
+  - EMERGENCY  
+  - CHILDREN
+  - SENIORS
+  - LONGWAIT
+  - REFERRAL
+  - FOLLOWUP
+  - ROUTINE
+  - PREPOSTOP
+  
+  Note: Priority labels are informational only and don't affect queue order (FCFS).
+}

@@ -1,0 +1,37 @@
+meta {
+  name: Get Patient Visit History
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{base_url}}/api/v1/patient/visit-history
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{patient_token}}
+}
+
+vars:pre-request {
+  base_url: http://localhost:3000
+}
+
+assert {
+  res.status: eq 200
+  res.body.success: eq true
+  res.body.data: isDefined
+}
+
+docs {
+  Get visit history for the authenticated patient.
+  
+  Returns:
+  - All previous patient visits
+  - Visit details including visit number, date, status
+  - Associated appointment information
+  
+  Requires patient authentication token.
+  Visits are returned in reverse chronological order (newest first).
+}
