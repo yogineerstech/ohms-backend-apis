@@ -6,7 +6,7 @@ meta {
 
 patch {
   url: {{base_url}}/api/v1/optometrist/queue/{{queue_entry_id}}/complete
-  body: none
+  body: json
   auth: bearer
 }
 
@@ -14,25 +14,48 @@ auth:bearer {
   token: {{optometrist_token}}
 }
 
+body:json {
+  {
+    "transferTo": "OPHTHALMOLOGIST"
+  }
+}
+
 vars:pre-request {
   base_url: http://localhost:3000
-  queue_entry_id: queue_entry_id_here
+  queue_entry_id: cmg7xvn9h000blh04xu85grrb
 }
 
 assert {
   res.status: eq 200
   res.body.success: eq true
-  res.body.data.queueEntry.status: eq COMPLETED
-  res.body.data.completedBy: isDefined
+  res.body.data.transferred: isDefined
+  res.body.data.adjustedPatientsCount: isDefined
 }
 
 docs {
-  Complete examination for a patient.
+  Complete optometrist examination for a patient.
   
-  This endpoint:
-  1. Changes queue status to COMPLETED
-  2. Updates patient visit status to AWAITING_DOCTOR
-  3. Records examination completion timestamp
+  **Optional Parameters:**
+  - transferTo: Automatically transfer to another queue after completion
+    - "OPHTHALMOLOGIST" - Transfer to doctor (most common)
+    - "DIAGNOSTICS" - Send for tests  
+    - "SURGERY" - Schedule for surgery
+    - "BILLING" - Send to billing
+    - "PHARMACY" - Send to pharmacy
   
-  After completion, patient moves to the next stage of care.
+  **Without transferTo**: Patient examination is completed and removed from queue
+  **With transferTo**: Patient examination is completed and moved to specified queue
+  
+  **Response includes:**
+  - transferred: boolean indicating if patient was transferred
+  - targetQueue: destination queue if transferred
+  - newQueueNumber: position in new queue if transferred
+  - adjustedPatientsCount: number of patients whose positions were adjusted
+  
+  **Queue Management:**
+  When a patient is transferred or completed, all remaining patients in the 
+  original queue have their queue numbers automatically adjusted to maintain 
+  sequential ordering (1, 2, 3, 4...).
+  
+  Requires optometrist authentication.
 }

@@ -1,0 +1,70 @@
+meta {
+  name: Transfer Patient (Do not use )
+  type: http
+  seq: 5
+}
+
+post {
+  url: {{base_url}}/api/v1/optometrist/queue/{{queue_entry_id}}/transfer
+  body: json
+  auth: bearer
+}
+
+headers {
+  Cookie: 
+}
+
+auth:bearer {
+  token: {{optometrist_token}}
+}
+
+body:json {
+  {
+    "targetQueue": "OPHTHALMOLOGIST",
+    "reason": "Requires detailed eye examination by doctor"
+  }
+}
+
+vars:pre-request {
+  base_url: http://localhost:3000
+  queue_entry_id: cmg7v9kxn000blh6085dbivn8
+}
+
+assert {
+  res.status: eq 200
+  res.body.success: eq true
+  res.body.data.updatedEntry.queueFor: eq {{targetQueue}}
+  res.body.data.adjustedPatientsCount: isDefined
+}
+
+docs {
+  Transfer patient to another queue (Updated Implementation).
+  
+  **Valid Target Queues:**
+  - OPHTHALMOLOGIST - For doctor consultation
+  - DIAGNOSTICS - For diagnostic tests
+  - SURGERY - For surgical procedures
+  - BILLING - For payment processing
+  - PHARMACY - For medication dispensing
+  
+  **Supported Patient Status:**
+  - IN_PROGRESS - Patient currently being examined
+  - COMPLETED - Patient examination completed but not yet transferred
+  
+  **What happens:**
+  1. Updates the SAME record (no duplicate records created)
+  2. Changes queueFor to target queue
+  3. Assigns new queue number in target queue
+  4. Adjusts remaining patients' positions in source queue
+  5. Updates patient visit status appropriately
+  
+  **Queue Management:**
+  - Source queue: Remaining patients get positions adjusted (no gaps)
+  - Target queue: Patient gets next available position
+  - Maintains FCFS (First Come First Served) ordering
+  
+  **Response includes:**
+  - updatedEntry: The modified queue record
+  - adjustedPatientsCount: Number of patients repositioned in source queue
+  - targetQueue, newQueueNumber: New queue details
+}

@@ -10,6 +10,10 @@ get {
   auth: bearer
 }
 
+headers {
+  Cookie: authToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImNtZzBma2QxajAwMDFsaDNzcWR6YXhjYjgiLCJlbWFpbCI6ImFkbWluQHlvZ2luZWVyc3RlY2guaW4iLCJ1c2VyVHlwZSI6InN0YWZmIiwic3RhZmZUeXBlIjoicmVjZXB0aW9uaXN0IiwiaWF0IjoxNzU5MzA3NzM3LCJleHAiOjE3NTkzOTQxMzd9.slpNICVwfkqK79n1LAg0c2lVF3uVSHFF3Yb72lHy5aQ; Max-Age=86400; Path=/; Expires=Thu, 02 Oct 2025 08:35:37 GMT; HttpOnly; SameSite=Strict
+}
+
 auth:bearer {
   token: {{staff_token}}
 }

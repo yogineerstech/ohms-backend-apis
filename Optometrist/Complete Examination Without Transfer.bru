@@ -1,0 +1,55 @@
+meta {
+  name: Complete Examination Without Transfer
+  type: http
+  seq: 5
+}
+
+patch {
+  url: {{base_url}}/api/v1/optometrist/queue/{{queue_entry_id}}/complete
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{optometrist_token}}
+}
+
+body:json {
+  {
+  }
+}
+
+vars:pre-request {
+  base_url: http://localhost:3000
+  queue_entry_id: queue_entry_id_here
+}
+
+assert {
+  res.status: eq 200
+  res.body.success: eq true
+  res.body.data.transferred: eq false
+  res.body.data.adjustedPatientsCount: isDefined
+}
+
+docs {
+  Complete optometrist examination without transferring to another queue.
+  
+  **No Parameters Required**: Empty body or no transferTo parameter
+  
+  **What happens:**
+  1. Marks examination as COMPLETED
+  2. Updates patient visit status to COMPLETED
+  3. Adjusts remaining patients' queue positions
+  4. Patient is removed from active queue workflow
+  
+  **Response includes:**
+  - transferred: false
+  - adjustedPatientsCount: number of patients whose positions were adjusted
+  
+  **Queue Management:**
+  All remaining patients in the optometrist queue have their queue numbers 
+  automatically adjusted to maintain sequential ordering (1, 2, 3, 4...).
+  
+  Use this when patient doesn't need further care or will be manually 
+  scheduled for follow-up later.
+}

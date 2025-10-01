@@ -10,8 +10,12 @@ get {
   auth: bearer
 }
 
+headers {
+  Cookie: authToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImNtZnFraDQzeTAwMDBsaGowY21nazdvbWEiLCJlbWFpbCI6ImFkd2Fwa2luZzgzQGdtYWlsLmNvbSIsInVzZXJUeXBlIjoic3RhZmYiLCJzdGFmZlR5cGUiOiJvcHRvbWV0cmlzdCIsImlhdCI6MTc1OTMyMDMxOCwiZXhwIjoxNzU5NDA2NzE4fQ.bfo-WypOHbgwtLxWK_u0CbJu_AoIaWYjCPOk6mvENKQ; Max-Age=86400; Path=/; Expires=Thu, 02 Oct 2025 12:05:19 GMT; HttpOnly; SameSite=Strict
+}
+
 auth:bearer {
-  token: {{optometrist_token}}
+  token: 
 }
 
 vars:pre-request {

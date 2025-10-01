@@ -1,0 +1,42 @@
+meta {
+  name: Staff Login Receptionist
+  type: http
+  seq: 11
+}
+
+post {
+  url: http://localhost:3000/api/v1/staff/login
+  body: json
+  auth: none
+}
+
+headers {
+  ~Cookie: authToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImNtZmk3NDZsdjAwMDFsaHc4ZjBjYW1ta3giLCJlbWFpbCI6ImJhbGJsaWdyZWVud2FsaUBnbWFpbC5jb20iLCJ1c2VyVHlwZSI6InN0YWZmIiwic3RhZmZUeXBlIjoiZG9jdG9yIiwiaWF0IjoxNzU4MDE4ODMyLCJleHAiOjE3NTgxMDUyMzJ9.oemeoqmk2IjwMizmcytX0qAtI5cZNu8O8INRJq0afCk; Max-Age=86400; Path=/; Expires=Wed, 17 Sep 2025 10:33:52 GMT; HttpOnly; SameSite=Strict
+}
+
+body:json {
+  {
+    "email": "adwapking83@gmail.com",
+    "password": "Optometrist@123"
+  }
+}
+
+tests {
+  test("Status should be 200", function() {
+    expect(res.getStatus()).to.equal(200);
+  });
+  
+  test("Should return token", function() {
+    expect(res.getBody().token).to.be.a('string');
+  });
+  
+  test("Should return staff user data", function() {
+    expect(res.getBody().user).to.be.an('object');
+    expect(res.getBody().user.employeeId).to.equal("EMP001");
+  });
+  
+  // Save token for use in other requests
+  if (res.getStatus() === 200) {
+    bru.setVar("staffToken", res.getBody().token);
+  }
+}
