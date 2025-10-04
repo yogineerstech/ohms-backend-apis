@@ -10,13 +10,17 @@ post {
   auth: bearer
 }
 
+headers {
+  Cookie: 	authToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImNtZzBma2QxajAwMDFsaDNzcWR6YXhjYjgiLCJlbWFpbCI6ImFkbWluQHlvZ2luZWVyc3RlY2guaW4iLCJ1c2VyVHlwZSI6InN0YWZmIiwic3RhZmZUeXBlIjoicmVjZXB0aW9uaXN0IiwiaWF0IjoxNzU5MzA0Mjg0LCJleHAiOjE3NTkzOTA2ODR9.K1T2gSdnRiQ-kUll4Xu0tlylrCEgv6U1Crdw0NgwJA4; Max-Age=86400; Path=/; Expires=Thu, 02 Oct 2025 07:38:05 GMT; HttpOnly; SameSite=Strict
+}
+
 auth:bearer {
   token: {{staff_token}}
 }
 
 body:json {
   {
-    "tokenNumber": "1234",
+    "tokenNumber": "3287",
     "priorityLabel": "ROUTINE"
   }
 }
