@@ -1,0 +1,50 @@
+meta {
+  name: Dashboard
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{baseUrl}}/receptionist2/dashboard
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{authToken}}
+}
+
+headers {
+  Content-Type: application/json
+}
+
+docs {
+  # Receptionist2 Dashboard
+  
+  Get the main dashboard data for receptionist2 including user info and basic dashboard data.
+  
+  ## Expected Response
+  ```json
+  {
+    "success": true,
+    "message": "Receptionist2 dashboard accessed successfully",
+    "data": {
+      "user": {
+        "id": "staff_id",
+        "name": "Staff Name",
+        "staffType": "receptionist2",
+        "employeeId": "RC2001"
+      },
+      "dashboard": {
+        "todayStats": {
+          "totalOptometristChecked": 15,
+          "awaitingDoctor": 8,
+          "withDoctor": 3,
+          "completedToday": 12
+        }
+      },
+      "accessTime": "2024-01-15T10:30:00.000Z"
+    }
+  }
+  ```
+}

@@ -1,0 +1,68 @@
+meta {
+  name: Patient Search
+  type: http
+  seq: 6
+}
+
+get {
+  url: {{baseUrl}}/receptionist2/patients/search
+  body: none
+  auth: bearer
+}
+
+params:query {
+  query: John
+  searchType: name
+}
+
+auth:bearer {
+  token: {{authToken}}
+}
+
+headers {
+  Content-Type: application/json
+}
+
+docs {
+  # Patient Search
+  
+  Search patients by various criteria among those who have been checked by optometrists.
+  
+  ## Query Parameters
+  - `query` (required): Search term
+  - `searchType` (required): Type of search - "name", "token", or "phone"
+  
+  ## Search Types
+  - `name`: Search by patient first name or last name (partial match)
+  - `token`: Search by appointment token number (exact match)
+  - `phone`: Search by phone number (partial match)
+  
+  ## Expected Response
+  ```json
+  {
+    "success": true,
+    "message": "Search completed for name: John",
+    "data": {
+      "patients": [
+        {
+          "examinationId": "exam_123",
+          "patient": {
+            "fullName": "John Doe",
+            "patientNumber": 1001,
+            "phone": "+1234567890"
+          },
+          "appointment": {
+            "tokenNumber": "1234"
+          },
+          "visit": {
+            "status": "AWAITING_DOCTOR"
+          }
+        }
+      ],
+      "statistics": {
+        "totalPatients": 1
+      }
+    }
+  }
+  ```
+}

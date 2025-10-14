@@ -1,0 +1,80 @@
+meta {
+  name: Queue Status
+  type: http
+  seq: 7
+}
+
+get {
+  url: {{baseUrl}}/receptionist2/queue/status
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{authToken}}
+}
+
+headers {
+  Content-Type: application/json
+}
+
+docs {
+  # Current Queue Status
+  
+  Get current status of all queues across the hospital.
+  
+  ## Expected Response
+  ```json
+  {
+    "success": true,
+    "message": "Current queue status retrieved successfully",
+    "data": {
+      "queuesByType": {
+        "OPTOMETRIST": [
+          {
+            "queueEntryId": "queue_123",
+            "queueNumber": 1,
+            "status": "WAITING",
+            "priorityLabel": "ROUTINE",
+            "patient": {
+              "name": "Jane Doe",
+              "patientNumber": 1002,
+              "phone": "+1234567891"
+            },
+            "appointment": {
+              "tokenNumber": "1235",
+              "appointmentTime": "10:00 AM"
+            }
+          }
+        ],
+        "OPHTHALMOLOGIST": [
+          {
+            "queueEntryId": "queue_124",
+            "queueNumber": 1,
+            "status": "IN_PROGRESS",
+            "patient": {
+              "name": "Bob Smith",
+              "patientNumber": 1003
+            }
+          }
+        ]
+      },
+      "statistics": {
+        "OPTOMETRIST": {
+          "total": 5,
+          "waiting": 3,
+          "called": 1,
+          "inProgress": 1
+        },
+        "OPHTHALMOLOGIST": {
+          "total": 2,
+          "waiting": 1,
+          "inProgress": 1
+        }
+      },
+      "totalActivePatients": 7,
+      "retrievedAt": "2024-01-15T10:30:00.000Z"
+    }
+  }
+  ```
+}

@@ -1,0 +1,55 @@
+meta {
+  name: Dashboard Stats
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{baseUrl}}/receptionist2/dashboard/stats
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{authToken}}
+}
+
+headers {
+  Content-Type: application/json
+}
+
+docs {
+  # Dashboard Statistics
+  
+  Get comprehensive dashboard statistics for receptionist2 including today's metrics and queue status.
+  
+  ## Expected Response
+  ```json
+  {
+    "success": true,
+    "message": "Dashboard statistics retrieved successfully",
+    "data": {
+      "todayStats": {
+        "totalOptometristChecked": 15,
+        "awaitingDoctor": 8,
+        "withDoctor": 3,
+        "completedToday": 12
+      },
+      "currentQueues": {
+        "queuesByType": {
+          "OPTOMETRIST": [...],
+          "OPHTHALMOLOGIST": [...]
+        },
+        "statistics": {
+          "OPTOMETRIST": {
+            "total": 5,
+            "waiting": 3,
+            "inProgress": 1
+          }
+        }
+      },
+      "lastUpdated": "2024-01-15T10:30:00.000Z"
+    }
+  }
+  ```
+}
