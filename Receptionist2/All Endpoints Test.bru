@@ -1,0 +1,99 @@
+meta {
+  name: All Endpoints Test
+  type: http
+  seq: 9
+}
+
+get {
+  url: {{baseUrl}}/receptionist2/dashboard
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{receptionist2Token}}
+}
+
+headers {
+  Content-Type: application/json
+}
+
+script:pre-request {
+  // You can add pre-request scripts here if needed
+  console.log('Testing Receptionist2 Dashboard endpoint');
+}
+
+script:post-response {
+  // Test the response
+  const { status, data } = res;
+  
+  if (status === 200) {
+    console.log('✅ Dashboard endpoint working');
+    console.log('Response data:', JSON.stringify(data, null, 2));
+  } else {
+    console.log('❌ Dashboard endpoint failed');
+    console.log('Status:', status);
+    console.log('Response:', JSON.stringify(data, null, 2));
+  }
+}
+
+docs {
+  # All Receptionist2 Endpoints Test
+  
+  This collection tests all receptionist2 endpoints. Make sure to:
+  
+  1. **Set up receptionist2Token**: 
+     - Create a receptionist2 staff member
+     - Login to get JWT token
+     - Add token to environment variables
+  
+  2. **Test Endpoints in Order**:
+     - Test Auth (basic authentication test)
+     - Dashboard (main dashboard)
+     - Dashboard Stats (statistics)
+     - Optometrist Checked Patients (patient list)
+     - Patient Examination Details (detailed view)
+     - Patient Search (search functionality)
+     - Queue Status (all queues)
+     - Optometrist Queue (specific queue)
+  
+  ## Setup Instructions
+  
+  ### 1. Create Receptionist2 Staff Member
+  ```bash
+  # Use the admin panel or API to create staff with:
+  # staffType: "receptionist2"
+  # All other required fields
+  ```
+  
+  ### 2. Login and Get Token
+  ```bash
+  POST /api/v1/staff/login
+  {
+    "email": "receptionist2@hospital.com",
+    "password": "password123"
+  }
+  ```
+  
+  ### 3. Update Environment
+  ```
+  receptionist2Token: "your-jwt-token-here"
+  ```
+  
+  ## Troubleshooting
+  
+  ### JWT Malformed Error
+  - Check token format (should have 3 parts separated by dots)
+  - Ensure no extra spaces or characters
+  - Verify token is not expired
+  
+  ### Access Denied
+  - Verify staff member has staffType = "receptionist2"
+  - Check if staff account is active
+  - Ensure employment status is "active"
+  
+  ### No Data Returned
+  - Check if there are patients in the system
+  - Verify optometrist examinations exist
+  - Check date filters (default is today)
+}

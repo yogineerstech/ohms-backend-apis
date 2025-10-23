@@ -1,0 +1,81 @@
+meta {
+  name: Optometrist Checked Patients
+  type: http
+  seq: 4
+}
+
+get {
+  url: {{baseUrl}}/receptionist2/patients/optometrist-checked
+  body: none
+  auth: bearer
+}
+
+params:query {
+  date: 2024-01-15
+  status: AWAITING_DOCTOR
+  patientName: 
+  tokenNumber: 
+}
+
+auth:bearer {
+  token: {{authToken}}
+}
+
+headers {
+  Content-Type: application/json
+}
+
+docs {
+  # Optometrist Checked Patients
+  
+  Get list of patients who have been checked by optometrists with optional filtering.
+  
+  ## Query Parameters
+  - `date` (optional): Filter by specific date (YYYY-MM-DD format)
+  - `status` (optional): Filter by visit status (AWAITING_DOCTOR, WITH_DOCTOR, COMPLETED)
+  - `patientName` (optional): Search by patient name (partial match)
+  - `tokenNumber` (optional): Search by appointment token number
+  - `phone` (optional): Search by phone number (partial match)
+  
+  ## Expected Response
+  ```json
+  {
+    "success": true,
+    "message": "Optometrist checked patients retrieved successfully",
+    "data": {
+      "patients": [
+        {
+          "examinationId": "exam_123",
+          "patient": {
+            "id": "patient_123",
+            "patientNumber": 1001,
+            "fullName": "John Doe",
+            "phone": "+1234567890"
+          },
+          "appointment": {
+            "tokenNumber": "1234",
+            "appointmentTime": "09:30 AM"
+          },
+          "visit": {
+            "status": "AWAITING_DOCTOR"
+          },
+          "optometrist": {
+            "name": "Dr. Smith",
+            "employeeId": "OPT001"
+          },
+          "examinationSummary": {
+            "preliminaryDiagnosis": "Myopia",
+            "clinicalNotes": "Patient needs glasses"
+          }
+        }
+      ],
+      "statistics": {
+        "totalPatients": 15,
+        "awaitingDoctor": 8,
+        "withDoctor": 3,
+        "completed": 4
+      }
+    }
+  }
+  ```
+}

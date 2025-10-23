@@ -1,0 +1,82 @@
+meta {
+  name: Login Receptionist2
+  type: http
+  seq: 0
+}
+
+post {
+  url: {{baseUrl}}/staff/login
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "email": "receptionist2@hospital.com",
+    "password": "password123"
+  }
+}
+
+headers {
+  Content-Type: application/json
+}
+
+script:post-response {
+  // Extract token from response and set it in environment
+  const { data } = res.body;
+  
+  if (res.status === 200 && data && data.token) {
+    // Set the token in environment for use in other requests
+    bru.setEnvVar('receptionist2Token', data.token);
+    console.log('✅ Login successful! Token saved to environment.');
+    console.log('Staff Type:', data.staff?.staffType);
+    console.log('Name:', data.staff?.firstName, data.staff?.lastName);
+  } else {
+    console.log('❌ Login failed');
+    console.log('Response:', JSON.stringify(res.body, null, 2));
+  }
+}
+
+docs {
+  # Receptionist2 Login
+  
+  Login endpoint specifically for receptionist2 staff members.
+  
+  ## Setup
+  1. Make sure you have created a receptionist2 staff member with:
+     - Email: `receptionist2@hospital.com`
+     - Password: `password123`
+     - Staff Type: `receptionist2`
+  
+  2. Run this request to login and automatically save the token
+  
+  ## What This Does
+  - Sends login request with receptionist2 credentials
+  - Automatically saves the JWT token to environment variable `receptionist2Token`
+  - Sets up authentication for all other receptionist2 endpoints
+  
+  ## Expected Response
+  ```json
+  {
+    "success": true,
+    "message": "Login successful",
+    "data": {
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+      "staff": {
+        "id": "staff_id",
+        "employeeId": "RC2001",
+        "firstName": "Receptionist",
+        "lastName": "Two",
+        "email": "receptionist2@hospital.com",
+        "staffType": "receptionist2",
+        "department": "Administration"
+      }
+    }
+  }
+  ```
+  
+  ## Troubleshooting
+  - **Invalid credentials**: Check email/password
+  - **Staff not found**: Create receptionist2 staff member first
+  - **Wrong staff type**: Ensure staffType is "receptionist2"
+}

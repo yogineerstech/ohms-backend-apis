@@ -1,0 +1,76 @@
+meta {
+  name: Patient Examination Details
+  type: http
+  seq: 5
+}
+
+get {
+  url: {{baseUrl}}/receptionist2/patients/examination/:examinationId
+  body: none
+  auth: bearer
+}
+
+params:path {
+  examinationId: exam_123
+}
+
+auth:bearer {
+  token: {{authToken}}
+}
+
+headers {
+  Content-Type: application/json
+}
+
+docs {
+  # Patient Examination Details
+  
+  Get detailed examination data for a specific patient examination.
+  
+  ## Path Parameters
+  - `examinationId` (required): The ID of the optometrist examination
+  
+  ## Expected Response
+  ```json
+  {
+    "success": true,
+    "message": "Examination details retrieved successfully",
+    "data": {
+      "examinationId": "exam_123",
+      "completedAt": "2024-01-15T09:45:00.000Z",
+      "patient": {
+        "id": "patient_123",
+        "patientNumber": 1001,
+        "fullName": "John Doe",
+        "phone": "+1234567890",
+        "email": "john@example.com",
+        "allergies": ["Penicillin"]
+      },
+      "appointment": {
+        "tokenNumber": "1234",
+        "appointmentTime": "09:30 AM",
+        "purpose": "Routine Eye Exam"
+      },
+      "optometrist": {
+        "name": "Dr. Smith",
+        "employeeId": "OPT001"
+      },
+      "examinationData": {
+        "visualAcuity": {
+          "rightEye": "20/40",
+          "leftEye": "20/30"
+        },
+        "refraction": {
+          "sphere": { "rightEye": -2.5, "leftEye": -2.0 },
+          "cylinder": { "rightEye": -0.5, "leftEye": -0.25 }
+        },
+        "tonometry": {
+          "iop": { "rightEye": 16, "leftEye": 15 }
+        },
+        "clinicalNotes": "Patient shows signs of myopia progression",
+        "preliminaryDiagnosis": "Progressive Myopia"
+      }
+    }
+  }
+  ```
+}

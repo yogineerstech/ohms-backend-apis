@@ -1,0 +1,39 @@
+meta {
+  name: Test Auth
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/receptionist2/test-auth
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{authToken}}
+}
+
+headers {
+  Content-Type: application/json
+}
+
+docs {
+  # Test Authentication
+  
+  Simple endpoint to test if receptionist2 authentication is working properly.
+  
+  ## Expected Response
+  ```json
+  {
+    "success": true,
+    "message": "Authentication successful",
+    "user": {
+      "id": "staff_id",
+      "name": "Staff Name",
+      "staffType": "receptionist2",
+      "userType": "staff"
+    }
+  }
+  ```
+}

@@ -1,0 +1,96 @@
+meta {
+  name: Optometrist Queue
+  type: http
+  seq: 8
+}
+
+get {
+  url: {{baseUrl}}/receptionist2/queue/optometrist
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{authToken}}
+}
+
+headers {
+  Content-Type: application/json
+}
+
+docs {
+  # Optometrist Queue
+  
+  Get current optometrist queue with detailed patient information.
+  
+  ## Expected Response
+  ```json
+  {
+    "success": true,
+    "message": "Optometrist queue retrieved successfully",
+    "data": {
+      "queueFor": "OPTOMETRIST",
+      "statistics": {
+        "totalPatients": 5,
+        "waitingPatients": 3,
+        "calledPatients": 1,
+        "inProgressPatients": 1,
+        "completedPatients": 0
+      },
+      "queueEntries": [
+        {
+          "queueEntryId": "queue_123",
+          "queueNumber": 1,
+          "priorityLabel": "ROUTINE",
+          "status": "WAITING",
+          "estimatedWaitTime": 15,
+          "joinedAt": "2024-01-15T09:30:00.000Z",
+          "patient": {
+            "id": "patient_123",
+            "patientNumber": 1001,
+            "fullName": "John Doe",
+            "phone": "+1234567890",
+            "gender": "Male"
+          },
+          "appointment": {
+            "tokenNumber": "1234",
+            "appointmentTime": "09:30 AM",
+            "appointmentType": "routine",
+            "purpose": "Regular Eye Checkup"
+          },
+          "visit": {
+            "id": "visit_123",
+            "visitNumber": 1,
+            "visitType": "OPD",
+            "status": "CHECKED_IN",
+            "checkedInAt": "2024-01-15T09:15:00.000Z"
+          },
+          "doctor": {
+            "id": "doctor_123",
+            "name": "Dr. Sarah Johnson"
+          },
+          "assignedStaff": null
+        },
+        {
+          "queueEntryId": "queue_124",
+          "queueNumber": 2,
+          "priorityLabel": "PRIORITY",
+          "status": "IN_PROGRESS",
+          "joinedAt": "2024-01-15T09:45:00.000Z",
+          "calledAt": "2024-01-15T10:15:00.000Z",
+          "inProgressAt": "2024-01-15T10:20:00.000Z",
+          "patient": {
+            "fullName": "Jane Smith",
+            "patientNumber": 1002
+          },
+          "assignedStaff": {
+            "name": "Dr. Mike Wilson",
+            "staffType": "optometrist"
+          }
+        }
+      ],
+      "retrievedAt": "2024-01-15T10:30:00.000Z"
+    }
+  }
+  ```
+}
