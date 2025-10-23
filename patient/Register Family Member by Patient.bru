@@ -1,0 +1,53 @@
+meta {
+  name: Register Family Member by Patient
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{base_url}}/api/patients/register-family-member
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "firstName": "Test Family",
+    "lastName": "Member",
+    "phone": "9876543210",
+    "email": "testfamily@gmail.com",
+    "dateOfBirth": "1990-01-15",
+    "gender": "female",
+    "address": "Test Address",
+    "emergencyContact": "Main Patient",
+    "emergencyPhone": "9876543211",
+    "relation": "mother",
+    "allergies": ["None"]
+  }
+}
+
+tests {
+  test("Status should be 201", function() {
+    expect(res.getStatus()).to.equal(201);
+  });
+  
+  test("Response should have success true", function() {
+    expect(res.getBody().success).to.equal(true);
+  });
+  
+  test("Should return patient data", function() {
+    expect(res.getBody().data.patient).to.be.an('object');
+    expect(res.getBody().data.patient.patientNumber).to.be.a('number');
+    expect(res.getBody().data.patient.isReferred).to.equal(true);
+  });
+  
+  test("Should return credentials", function() {
+    expect(res.getBody().data.credentials).to.be.an('object');
+    expect(res.getBody().data.credentials.patientNumber).to.be.a('number');
+    expect(res.getBody().data.credentials.password).to.be.a('string');
+  });
+}

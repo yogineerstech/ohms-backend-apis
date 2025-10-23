@@ -1,0 +1,31 @@
+meta {
+  name: Complete Family Management Workflow Test
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{base_url}}/api/patients/profile
+  body: none
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+}
+
+tests {
+  test("Should get current patient profile", function() {
+    expect(res.getStatus()).to.equal(200);
+    expect(res.getBody().success).to.equal(true);
+    expect(res.getBody().data.patient).to.be.an('object');
+    
+    // Store patient data for subsequent tests
+    bru.setVar("current_patient_id", res.getBody().data.patient.id);
+    bru.setVar("current_patient_number", res.getBody().data.patient.patientNumber);
+    bru.setVar("current_patient_name", res.getBody().data.patient.firstName + " " + res.getBody().data.patient.lastName);
+    
+    console.log("Current Patient:", res.getBody().data.patient.firstName + " " + res.getBody().data.patient.lastName);
+    console.log("Patient ID:", res.getBody().data.patient.id);
+  });
+}

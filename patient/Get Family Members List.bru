@@ -1,0 +1,31 @@
+meta {
+  name: Get Family Members List
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{base_url}}/api/patients/family-members
+  body: none
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+}
+
+tests {
+  test("Status should be 200", function() {
+    expect(res.getStatus()).to.equal(200);
+  });
+  
+  test("Response should have success true", function() {
+    expect(res.getBody().success).to.equal(true);
+  });
+  
+  test("Should return family members data", function() {
+    expect(res.getBody().data).to.be.an('object');
+    expect(res.getBody().data.familyMembers).to.be.an('array');
+    expect(res.getBody().data.totalCount).to.be.a('number');
+  });
+}

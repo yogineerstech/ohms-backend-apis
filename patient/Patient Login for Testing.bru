@@ -1,0 +1,30 @@
+meta {
+  name: Patient Login for Testing
+  type: http
+  seq: 1
+}
+
+post {
+  url: localhost:3000/api/v1/patients/login
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "email": "ankushdiwakar8080@gmail.com",
+    "password": "MeNv7@a2"
+  }
+}
+
+tests {
+  test("Should login successfully", function() {
+    expect(res.getStatus()).to.equal(200);
+    expect(res.getBody().success).to.equal(true);
+    expect(res.getBody().data.token).to.be.a('string');
+  });
+}

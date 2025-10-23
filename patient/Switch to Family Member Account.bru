@@ -1,0 +1,40 @@
+meta {
+  name: Switch to Family Member Account
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{base_url}}/api/patients/switch-to-family/{family_member_id}
+  body: none
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+}
+
+vars:pre-request {
+  family_member_id: "replace_with_actual_family_member_id"
+}
+
+tests {
+  test("Status should be 200", function() {
+    expect(res.getStatus()).to.equal(200);
+  });
+  
+  test("Response should have success true", function() {
+    expect(res.getBody().success).to.equal(true);
+  });
+  
+  test("Should return switched patient data", function() {
+    expect(res.getBody().data.patient).to.be.an('object');
+    expect(res.getBody().data.patient.patientNumber).to.be.a('number');
+    expect(res.getBody().data.patient.isReferred).to.equal(true);
+  });
+  
+  test("Should return referral info", function() {
+    expect(res.getBody().data.referralInfo).to.be.an('object');
+    expect(res.getBody().data.referralInfo.switchedFrom).to.be.an('object');
+  });
+}

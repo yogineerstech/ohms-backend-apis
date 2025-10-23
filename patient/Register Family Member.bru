@@ -1,0 +1,59 @@
+meta {
+  name: Register Family Member
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{base_url}}/patients/register-family-member
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{patient_token}}
+}
+
+body:json {
+  {
+    "firstName": "John",
+    "lastName": "Doe",
+    "dateOfBirth": "1990-05-15",
+    "gender": "male",
+    "phone": "9876543210",
+    "email": "john.doe@example.com",
+    "address": "123 Family Street, City, State",
+    "emergencyContact": "Jane Doe",
+    "emergencyPhone": "9876543211",
+    "emergencyRelation": "Spouse",
+    "allergies": "Penicillin, Shellfish",
+    "relationToPatient": "Son"
+  }
+}
+
+tests {
+  test("Status should be 201", function() {
+    expect(res.status).to.equal(201);
+  });
+  
+  test("Should return patient data", function() {
+    expect(res.body.success).to.be.true;
+    expect(res.body.patient).to.be.an('object');
+    expect(res.body.patient.patientNumber).to.be.a('number');
+    expect(res.body.patient.firstName).to.equal('John');
+    expect(res.body.patient.lastName).to.equal('Doe');
+    expect(res.body.patient.isReferred).to.be.true;
+  });
+  
+  test("Should return appointment data", function() {
+    if (res.body.appointment) {
+      expect(res.body.appointment.tokenNumber).to.be.a('string');
+    }
+  });
+  
+  test("Should return login credentials", function() {
+    if (res.body.loginCredentials) {
+      expect(res.body.loginCredentials.temporaryPassword).to.be.a('string');
+    }
+  });
+}
