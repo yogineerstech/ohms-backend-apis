@@ -1,0 +1,61 @@
+meta {
+  name: Mark Patient Reviewed
+  type: http
+  seq: 10
+}
+
+post {
+  url: {{baseUrl}}/receptionist2/patients/examination/:examinationId/mark-reviewed
+  body: json
+  auth: bearer
+}
+
+params:path {
+  examinationId: exam_123
+}
+
+auth:bearer {
+  token: {{receptionist2Token}}
+}
+
+body:json {
+  {
+    "notes": "Patient information reviewed and verified by receptionist2"
+  }
+}
+
+headers {
+  Content-Type: application/json
+}
+
+docs {
+  # Mark Patient as Reviewed
+  
+  Mark a patient as reviewed by receptionist2 staff. This adds a flag to track that the patient has been processed by receptionist2.
+  
+  ## Path Parameters
+  - `examinationId` (required): The ID of the optometrist examination
+  
+  ## Request Body
+  - `notes` (optional): Optional notes from receptionist2 about the review
+  
+  ## Expected Response
+  ```json
+  {
+    "success": true,
+    "message": "Patient marked as reviewed successfully",
+    "data": {
+      "id": "exam_123",
+      "receptionist2Reviewed": true,
+      "receptionist2ReviewedAt": "2024-01-15T10:30:00.000Z",
+      "receptionist2ReviewedBy": "staff_456",
+      "receptionist2Notes": "Patient information reviewed and verified"
+    }
+  }
+  ```
+  
+  ## Use Cases
+  - Track which patients have been processed by receptionist2
+  - Add notes about patient status or follow-up requirements
+  - Maintain workflow visibility between departments
+}

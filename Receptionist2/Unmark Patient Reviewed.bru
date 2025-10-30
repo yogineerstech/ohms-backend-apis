@@ -1,0 +1,52 @@
+meta {
+  name: Unmark Patient Reviewed
+  type: http
+  seq: 11
+}
+
+post {
+  url: {{baseUrl}}/receptionist2/patients/examination/:examinationId/unmark-reviewed
+  body: none
+  auth: bearer
+}
+
+params:path {
+  examinationId: exam_123
+}
+
+auth:bearer {
+  token: {{receptionist2Token}}
+}
+
+headers {
+  Content-Type: application/json
+}
+
+docs {
+  # Unmark Patient as Reviewed
+  
+  Remove the reviewed flag from a patient examination. This can be used if a patient was marked as reviewed by mistake.
+  
+  ## Path Parameters
+  - `examinationId` (required): The ID of the optometrist examination
+  
+  ## Expected Response
+  ```json
+  {
+    "success": true,
+    "message": "Patient unmarked as reviewed successfully",
+    "data": {
+      "id": "exam_123",
+      "receptionist2Reviewed": false,
+      "receptionist2ReviewedAt": null,
+      "receptionist2ReviewedBy": null,
+      "receptionist2Notes": null
+    }
+  }
+  ```
+  
+  ## Use Cases
+  - Correct mistakes in patient review status
+  - Reset patient status for re-review
+  - Maintain accurate workflow tracking
+}
