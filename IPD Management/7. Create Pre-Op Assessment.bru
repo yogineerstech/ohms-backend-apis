@@ -1,0 +1,49 @@
+meta {
+  name: Create Pre-Op Assessment
+  type: http
+  seq: 7
+}
+
+post {
+  url: {{baseUrl}}/api/v1/ipd/admissions/{{testAdmissionId}}/pre-op-assessments
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{authToken}}
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "allergies": "NKDA (No Known Drug Allergies)",
+    "currentMedications": "Aspirin 81mg daily, Metformin 500mg BID",
+    "medicalHistory": "Type 2 Diabetes Mellitus, Hypertension",
+    "surgicalHistory": "Appendectomy 2010, Gallbladder removal 2015",
+    "anesthesiaRisk": "LOW",
+    "fastingStatus": "NPO since midnight",
+    "preOpInstructions": "Continue diabetes medications, hold aspirin 7 days prior",
+    "assessmentNotes": "Patient is prepared for surgery, all pre-operative requirements met"
+  }
+}
+
+tests {
+  test("Status should be 201", function() {
+    expect(res.getStatus()).to.equal(201);
+  });
+  
+  test("Should create pre-op assessment successfully", function() {
+    expect(res.getBody().success).to.equal(true);
+    expect(res.getBody().data.id).to.be.a('string');
+    expect(res.getBody().data.anesthesiaRisk).to.equal('LOW');
+  });
+  
+  // Store the pre-op assessment ID
+  if (res.getBody().success) {
+    bru.setVar("testPreOpId", res.getBody().data.id);
+  }
+}

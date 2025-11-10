@@ -1,0 +1,51 @@
+meta {
+  name: Create Surgery Metrics
+  type: http
+  seq: 8
+}
+
+post {
+  url: {{baseUrl}}/api/v1/ipd/admissions/{{testAdmissionId}}/surgery-metrics
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{authToken}}
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "surgeryStartTime": "2025-11-12T09:00:00.000Z",
+    "surgeryEndTime": "2025-11-12T11:00:00.000Z",
+    "actualDuration": 120,
+    "surgeon": "Dr. Smith",
+    "assistantSurgeon": "Dr. Johnson",
+    "anesthesiologist": "Dr. Brown",
+    "complications": "None",
+    "outcome": "Successful cataract extraction with IOL implantation",
+    "postOpInstructions": "Eye patch for 24 hours, antibiotic drops QID",
+    "notes": "Uneventful procedure, good visual outcome expected"
+  }
+}
+
+tests {
+  test("Status should be 201", function() {
+    expect(res.getStatus()).to.equal(201);
+  });
+  
+  test("Should create surgery metrics successfully", function() {
+    expect(res.getBody().success).to.equal(true);
+    expect(res.getBody().data.id).to.be.a('string');
+    expect(res.getBody().data.actualDuration).to.equal(120);
+  });
+  
+  // Store the surgery metrics ID
+  if (res.getBody().success) {
+    bru.setVar("testSurgeryMetricsId", res.getBody().data.id);
+  }
+}

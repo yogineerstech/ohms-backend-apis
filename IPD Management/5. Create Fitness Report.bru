@@ -1,0 +1,49 @@
+meta {
+  name: Create Fitness Report
+  type: http
+  seq: 5
+}
+
+post {
+  url: {{baseUrl}}/api/v1/ipd/admissions/{{testAdmissionId}}/fitness-reports
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{authToken}}
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "bloodPressure": "120/80",
+    "heartRate": "72",
+    "temperature": "98.6",
+    "oxygenSaturation": "98",
+    "ecgReport": "Normal sinus rhythm, no abnormalities detected",
+    "fitnessNotes": "Patient is fit for cataract surgery. No contraindications found.",
+    "fitnessStatus": "PENDING",
+    "specialInstructions": "Monitor blood pressure pre-operatively"
+  }
+}
+
+tests {
+  test("Status should be 201", function() {
+    expect(res.getStatus()).to.equal(201);
+  });
+  
+  test("Should create fitness report successfully", function() {
+    expect(res.getBody().success).to.equal(true);
+    expect(res.getBody().data.id).to.be.a('string');
+    expect(res.getBody().data.fitnessStatus).to.equal('PENDING');
+  });
+  
+  // Store the fitness report ID for subsequent tests
+  if (res.getBody().success) {
+    bru.setVar("testFitnessReportId", res.getBody().data.id);
+  }
+}

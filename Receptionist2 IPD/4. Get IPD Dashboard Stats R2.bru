@@ -1,0 +1,38 @@
+meta {
+  name: Get IPD Dashboard Stats (R2)
+  type: http
+  seq: 4
+}
+
+get {
+  url: {{baseUrl}}/api/v1/receptionist2/ipd/dashboard/stats
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{authToken}}
+}
+
+headers {
+  Content-Type: application/json
+}
+
+tests {
+  test("Status should be 200", function() {
+    expect(res.getStatus()).to.equal(200);
+  });
+  
+  test("Should return IPD dashboard statistics", function() {
+    expect(res.getBody().success).to.equal(true);
+    expect(res.getBody().data).to.be.an('object');
+  });
+  
+  test("Should include key metrics", function() {
+    const data = res.getBody().data;
+    expect(data.todaySurgeries).to.be.a('number');
+    expect(data.upcomingSurgeries).to.be.a('number');
+    expect(data.pendingFitness).to.be.a('number');
+    expect(data.totalAdmissions).to.be.a('number');
+  });
+}

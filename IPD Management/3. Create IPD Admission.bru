@@ -1,0 +1,48 @@
+meta {
+  name: Create IPD Admission
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{baseUrl}}/api/v1/ipd/admissions
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{authToken}}
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "patientId": "{{testPatientId}}",
+    "surgeryType": "CATARACT",
+    "surgeryDate": "2025-11-12T09:00:00.000Z",
+    "notes": "Test IPD admission created via Bruno API test",
+    "preOpInstructions": "Patient should be NPO after midnight",
+    "expectedDuration": 120
+  }
+}
+
+tests {
+  test("Status should be 201", function() {
+    expect(res.getStatus()).to.equal(201);
+  });
+  
+  test("Should create admission successfully", function() {
+    expect(res.getBody().success).to.equal(true);
+    expect(res.getBody().data.id).to.be.a('string');
+    expect(res.getBody().data.admissionNumber).to.be.a('string');
+  });
+  
+  // Store the admission ID for subsequent tests
+  if (res.getBody().success) {
+    bru.setVar("testAdmissionId", res.getBody().data.id);
+    bru.setVar("admissionNumber", res.getBody().data.admissionNumber);
+  }
+}

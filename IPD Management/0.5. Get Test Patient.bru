@@ -1,0 +1,45 @@
+meta {
+  name: Get Test Patient
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{baseUrl}}/api/v1/patients/search
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{authToken}}
+}
+
+headers {
+  Content-Type: application/json
+}
+
+params:query {
+  limit: 1
+}
+
+tests {
+  test("Status should be 200", function() {
+    expect(res.getStatus()).to.equal(200);
+  });
+  
+  test("Should return patient data", function() {
+    expect(res.getBody().success).to.equal(true);
+  });
+  
+  // Store a test patient ID if available
+  if (res.getBody().success && res.getBody().data.patients && res.getBody().data.patients.length > 0) {
+    const patient = res.getBody().data.patients[0];
+    bru.setVar("testPatientId", patient.id);
+    console.log("✅ Test patient ID stored:", patient.id);
+    console.log("👤 Patient:", patient.firstName, patient.lastName);
+  } else {
+    // Use a mock patient ID for testing
+    bru.setVar("testPatientId", "test-patient-id-12345");
+    console.log("⚠️ No patients found, using mock patient ID");
+  }
+}

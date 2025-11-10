@@ -1,0 +1,35 @@
+meta {
+  name: Get Upcoming Surgeries (R2) copy
+  type: http
+  seq: 7
+}
+
+get {
+  url: {{baseUrl}}/api/v1/receptionist2/ipd/surgeries/upcoming
+  body: none
+  auth: bearer
+}
+
+params:query {
+  days: 7
+}
+
+headers {
+  Content-Type: application/json
+}
+
+auth:bearer {
+  token: {{authToken}}
+}
+
+tests {
+  test("Status should be 200", function() {
+    expect(res.getStatus()).to.equal(200);
+  });
+  
+  test("Should return upcoming surgeries for receptionist", function() {
+    expect(res.getBody().success).to.equal(true);
+    expect(res.getBody().data.count).to.be.a('number');
+    expect(res.getBody().data.surgeries).to.be.an('array');
+  });
+}
