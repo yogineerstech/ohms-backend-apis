@@ -1,0 +1,31 @@
+meta {
+  name: Staff Check-Out
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{baseUrl}}/attendance/checkout
+  body: none
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+}
+
+docs {
+  # Staff Check-Out
+  
+  This endpoint allows staff members to check out from their shift.
+  
+  ## Response
+  - Records check-out time
+  - Calculates working hours
+  - Returns complete attendance record
+  
+  ## Business Rules
+  - Must be checked in first
+  - Cannot check out twice in same day
+  - Automatically calculates working hours
+}

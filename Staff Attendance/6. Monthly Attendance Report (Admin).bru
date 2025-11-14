@@ -1,0 +1,38 @@
+meta {
+  name: Monthly Attendance Report (Admin)
+  type: http
+  seq: 6
+}
+
+get {
+  url: {{baseUrl}}/attendance/monthly?month=11&year=2025
+  body: none
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+}
+
+params:query {
+  month: 11
+  year: 2025
+}
+
+docs {
+  # Monthly Attendance Report (Admin)
+  
+  This endpoint returns a monthly attendance report for all staff members.
+  
+  ## Query Parameters
+  - `month` (optional): Month number (1-12). Defaults to current month.
+  - `year` (optional): Year. Defaults to current year.
+  
+  ## Response
+  - All attendance records for the specified month
+  - Ordered by date and staff name
+  
+  ## Access
+  - Requires admin or staff authentication
+  - Used for monthly reporting and analytics
+}

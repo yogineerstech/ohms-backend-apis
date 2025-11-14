@@ -1,0 +1,37 @@
+meta {
+  name: Multiple Check-ins Test
+  type: http
+  seq: 8
+}
+
+post {
+  url: {{baseUrl}}/attendance/checkin
+  body: none
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+}
+
+docs {
+  # Multiple Check-ins Test
+  
+  This test verifies that staff can check in again after being auto-checked out.
+  
+  ## Test Scenario:
+  1. Staff checks in (creates attendance record)
+  2. Staff closes browser (auto-checkout via beforeunload)
+  3. Staff logs in again and tries to check in
+  4. Should work (not show "already checked in" error)
+  
+  ## Expected Behavior:
+  - First check-in: Success
+  - Auto-checkout: Updates record with check-out time
+  - Second check-in: Success (updates record with new check-in time, clears check-out)
+  
+  ## Test Flow:
+  1. Run this endpoint after being checked out
+  2. Should succeed and allow new check-in
+  3. Verify status shows as checked in
+}

@@ -5,22 +5,17 @@ meta {
 }
 
 get {
-  url: {{baseUrl}}/api/v1/ipd/admissions
+  url: http://localhost:3000/api/v1/ipd/admissions
   body: none
   auth: bearer
-}
-
-auth:bearer {
-  token: {{authToken}}
 }
 
 headers {
   Content-Type: application/json
 }
 
-params:query {
-  page: 1
-  limit: 10
+auth:bearer {
+  token: {{authToken}}
 }
 
 tests {

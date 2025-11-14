@@ -1,0 +1,32 @@
+meta {
+  name: Staff Check-In
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{baseUrl}}/attendance/checkin
+  body: none
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+  Cookie: authToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImNtaHQ1NXNxbDAwMDNsaDM4YWRjZzcxdTIiLCJlbWFpbCI6ImFkbWluQHlvZ2luZWVyc3RlY2guaW4iLCJ1c2VyVHlwZSI6InN0YWZmIiwic3RhZmZUeXBlIjoicmVjZXB0aW9uaXN0IiwiaWF0IjoxNzYyOTM4NDExLCJleHAiOjE3NjMwMjQ4MTF9.8VQdovdINa1lrlpsS634NfUKkPIEI0sKSKGfXctOlJY; Max-Age=86400; Path=/; Expires=Thu, 13 Nov 2025 09:06:51 GMT; HttpOnly; SameSite=Strict
+}
+
+docs {
+  # Staff Check-In
+  
+  This endpoint allows staff members to check in for their shift.
+  
+  ## Response
+  - Records check-in time
+  - Sets status to PRESENT
+  - Returns attendance record with staff info
+  
+  ## Business Rules
+  - Only one check-in per day allowed
+  - Must be authenticated staff member
+  - Automatically sets isPresent to true
+}

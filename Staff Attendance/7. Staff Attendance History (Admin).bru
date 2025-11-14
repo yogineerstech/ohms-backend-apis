@@ -1,0 +1,44 @@
+meta {
+  name: Staff Attendance History (Admin)
+  type: http
+  seq: 7
+}
+
+get {
+  url: {{baseUrl}}/attendance/staff/cmht55ss20009lh38qc5ehp7k?limit=30
+  body: none
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+}
+
+params:query {
+  limit: 30
+  ~startDate: 2025-11-01
+  ~endDate: 2025-11-30
+}
+
+docs {
+  # Individual Staff Attendance History (Admin)
+  
+  This endpoint returns attendance history for a specific staff member.
+  
+  ## Path Parameters
+  - `staffId`: The ID of the staff member
+  
+  ## Query Parameters
+  - `limit` (optional): Number of records to return. Default: 30
+  - `startDate` (optional): Start date filter (YYYY-MM-DD)
+  - `endDate` (optional): End date filter (YYYY-MM-DD)
+  
+  ## Response
+  - Staff information
+  - Summary statistics (total days, present days, working hours)
+  - Individual attendance records
+  
+  ## Access
+  - Requires admin or staff authentication
+  - Used for individual staff performance tracking
+}

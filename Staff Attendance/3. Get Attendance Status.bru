@@ -1,0 +1,31 @@
+meta {
+  name: Get Attendance Status
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{baseUrl}}/attendance/status
+  body: none
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+}
+
+docs {
+  # Get Current Attendance Status
+  
+  This endpoint returns the current attendance status for the authenticated staff member.
+  
+  ## Response
+  - Check-in/check-out status
+  - Current working hours
+  - Attendance record for today
+  
+  ## Use Cases
+  - Dashboard status display
+  - Determining if check-in/check-out buttons should be shown
+  - Real-time working hours tracking
+}

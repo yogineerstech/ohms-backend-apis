@@ -5,13 +5,9 @@ meta {
 }
 
 get {
-  url: {{baseUrl}}/api/v1/receptionist2/ipd/surgeries/upcoming
+  url: http://localhost:3000/api/v1/surgery/recommended-patients
   body: none
   auth: bearer
-}
-
-params:query {
-  days: 7
 }
 
 headers {

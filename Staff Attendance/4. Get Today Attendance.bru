@@ -1,0 +1,32 @@
+meta {
+  name: Get Today Attendance
+  type: http
+  seq: 4
+}
+
+get {
+  url: {{baseUrl}}/attendance/today
+  body: none
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+}
+
+docs {
+  # Get Today's Attendance
+  
+  This endpoint returns today's attendance record for the authenticated staff member.
+  
+  ## Response
+  - Today's attendance record
+  - Check-in/check-out times
+  - Working hours
+  - Attendance status
+  
+  ## Use Cases
+  - Staff personal attendance tracking
+  - Today's summary display
+  - Working hours calculation
+}

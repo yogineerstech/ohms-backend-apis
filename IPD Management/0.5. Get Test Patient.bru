@@ -5,21 +5,17 @@ meta {
 }
 
 get {
-  url: {{baseUrl}}/api/v1/patients/search
+  url: http://localhost:3000/api/v1/patients/search
   body: none
   auth: bearer
-}
-
-auth:bearer {
-  token: {{authToken}}
 }
 
 headers {
   Content-Type: application/json
 }
 
-params:query {
-  limit: 1
+auth:bearer {
+  token: {{authToken}}
 }
 
 tests {
