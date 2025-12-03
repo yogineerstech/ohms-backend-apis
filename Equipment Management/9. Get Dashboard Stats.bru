@@ -1,0 +1,29 @@
+meta {
+  name: 9. Get Dashboard Stats
+  type: http
+  seq: 9
+}
+
+get {
+  url: {{baseUrl}}/api/v1/equipment/stats/dashboard
+  body: none
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+  ~Authorization: Bearer {{authToken}}
+}
+
+tests {
+  test("Status should be 200", function() {
+    expect(res.getStatus()).to.equal(200);
+  });
+  
+  test("Should return dashboard statistics", function() {
+    expect(res.getBody().success).to.equal(true);
+    expect(res.getBody().data).to.be.an('object');
+    expect(res.getBody().data.totalEquipment).to.be.a('number');
+    expect(res.getBody().data.lowStockCount).to.be.a('number');
+  });
+}

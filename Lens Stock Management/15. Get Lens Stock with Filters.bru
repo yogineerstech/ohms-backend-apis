@@ -1,0 +1,48 @@
+meta {
+  name: Get Lens Stock with Filters
+  type: http
+  seq: 15
+}
+
+get {
+  url: {{baseUrl}}/api/v1/lens-stock?page=1&limit=5&lensType=IOL&lensCategory=MONOFOCAL&manufacturer=Alcon&isActive=true
+  body: none
+  auth: none
+}
+
+params:query {
+  page: 1
+  limit: 5
+  lensType: IOL
+  lensCategory: MONOFOCAL
+  manufacturer: Alcon
+  isActive: true
+}
+
+headers {
+  Authorization: Bearer {{adminToken}}
+}
+
+tests {
+  test("Status should be 200", function() {
+    expect(res.getStatus()).to.equal(200);
+  });
+
+  test("Response should be JSON", function() {
+    expect(res.getHeader("content-type")).to.contain("application/json");
+  });
+
+  test("Should have success field", function() {
+    expect(res.getBody().success).to.be.true;
+  });
+
+  test("Should have data field", function() {
+    expect(res.getBody().data).to.be.an("array");
+  });
+
+  test("Should filter by lens type", function() {
+    if (res.getBody().data.length > 0) {
+      expect(res.getBody().data[0].lensType).to.equal("IOL");
+    }
+  });
+}

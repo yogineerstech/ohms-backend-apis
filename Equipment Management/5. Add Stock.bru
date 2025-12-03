@@ -1,0 +1,36 @@
+meta {
+  name: 5. Add Stock
+  type: http
+  seq: 5
+}
+
+post {
+  url: {{baseUrl}}/api/v1/equipment/cmipnmflj0000lhg8yglrogcy/stock/add
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+  ~Authorization: Bearer {{authToken}}
+}
+
+body:json {
+  {
+    "quantity": 5,
+    "reason": "New shipment received",
+    "expiryDate": "2026-06-30T00:00:00.000Z",
+    "batchNumber": "BATCH-2024-002"
+  }
+}
+
+tests {
+  test("Status should be 200", function() {
+    expect(res.getStatus()).to.equal(200);
+  });
+  
+  test("Should add stock successfully", function() {
+    expect(res.getBody().success).to.equal(true);
+    expect(res.getBody().data.currentStock).to.equal(75); // 50 + 25
+  });
+}

@@ -1,0 +1,56 @@
+meta {
+  name: Create Toric IOL
+  type: http
+  seq: 11
+}
+
+post {
+  url: {{baseUrl}}/api/v1/lens-stock
+  body: json
+  auth: none
+}
+
+headers {
+  Authorization: Bearer {{adminToken}}
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "lensName": "Johnson & Johnson TECNIS Toric IOL",
+    "lensType": "TORIC_IOL",
+    "lensCategory": "TORIC",
+    "manufacturer": "Johnson & Johnson",
+    "model": "ICB00T",
+    "power": "20.0D",
+    "lensoCost": 12000.00,
+    "patientCost": 18000.00,
+    "stockQuantity": 30,
+    "reorderLevel": 8,
+    "batchNumber": "JNJ2024T01",
+    "expiryDate": "2027-06-30T00:00:00.000Z"
+  }
+}
+
+tests {
+  test("Status should be 201", function() {
+    expect(res.getStatus()).to.equal(201);
+  });
+
+  test("Response should be JSON", function() {
+    expect(res.getHeader("content-type")).to.contain("application/json");
+  });
+
+  test("Should have success field", function() {
+    expect(res.getBody().success).to.be.true;
+  });
+
+  test("Should have created toric lens data", function() {
+    expect(res.getBody().data).to.be.an("object");
+    expect(res.getBody().data.lensType).to.equal("TORIC_IOL");
+    expect(res.getBody().data.lensCategory).to.equal("TORIC");
+  });
+
+  // Store the created lens ID for subsequent tests
+  bru.setVar("createdToricLensId", res.getBody().data.id);
+}

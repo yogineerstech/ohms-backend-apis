@@ -1,0 +1,56 @@
+meta {
+  name: Create Multifocal IOL
+  type: http
+  seq: 12
+}
+
+post {
+  url: {{baseUrl}}/api/v1/lens-stock
+  body: json
+  auth: none
+}
+
+headers {
+  Authorization: Bearer {{adminToken}}
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "lensName": "Zeiss AT LISA tri 839MP",
+    "lensType": "MULTIFOCAL_IOL",
+    "lensCategory": "MULTIFOCAL",
+    "manufacturer": "Carl Zeiss Meditec",
+    "model": "839MP",
+    "power": "21.5D",
+    "lensoCost": 15000.00,
+    "patientCost": 25000.00,
+    "stockQuantity": 20,
+    "reorderLevel": 5,
+    "batchNumber": "CZ2024M01",
+    "expiryDate": "2027-03-31T00:00:00.000Z"
+  }
+}
+
+tests {
+  test("Status should be 201", function() {
+    expect(res.getStatus()).to.equal(201);
+  });
+
+  test("Response should be JSON", function() {
+    expect(res.getHeader("content-type")).to.contain("application/json");
+  });
+
+  test("Should have success field", function() {
+    expect(res.getBody().success).to.be.true;
+  });
+
+  test("Should have created multifocal lens data", function() {
+    expect(res.getBody().data).to.be.an("object");
+    expect(res.getBody().data.lensType).to.equal("MULTIFOCAL_IOL");
+    expect(res.getBody().data.lensCategory).to.equal("MULTIFOCAL");
+  });
+
+  // Store the created lens ID for subsequent tests
+  bru.setVar("createdMultifocalLensId", res.getBody().data.id);
+}

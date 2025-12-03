@@ -1,0 +1,43 @@
+meta {
+  name: Update Lens Stock
+  type: http
+  seq: 9
+}
+
+put {
+  url: {{baseUrl}}/api/v1/lens-stock/{{createdLensStockId}}
+  body: json
+  auth: none
+}
+
+headers {
+  Authorization: Bearer {{adminToken}}
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "lensName": "Updated Alcon AcrySof IQ Monofocal IOL",
+    "patientCost": 13000.00,
+    "reorderLevel": 15
+  }
+}
+
+tests {
+  test("Status should be 200", function() {
+    expect(res.getStatus()).to.equal(200);
+  });
+
+  test("Response should be JSON", function() {
+    expect(res.getHeader("content-type")).to.contain("application/json");
+  });
+
+  test("Should have success field", function() {
+    expect(res.getBody().success).to.be.true;
+  });
+
+  test("Should have updated lens data", function() {
+    expect(res.getBody().data).to.be.an("object");
+    expect(res.getBody().data.patientCost).to.equal(13000);
+  });
+}

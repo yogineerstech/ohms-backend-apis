@@ -1,0 +1,36 @@
+meta {
+  name: Get Lens Dashboard Stats
+  type: http
+  seq: 7
+}
+
+get {
+  url: {{baseUrl}}/api/v1/lens-stock/dashboard-stats
+  body: none
+  auth: none
+}
+
+headers {
+  Authorization: Bearer {{adminToken}}
+}
+
+tests {
+  test("Status should be 200", function() {
+    expect(res.getStatus()).to.equal(200);
+  });
+
+  test("Response should be JSON", function() {
+    expect(res.getHeader("content-type")).to.contain("application/json");
+  });
+
+  test("Should have success field", function() {
+    expect(res.getBody().success).to.be.true;
+  });
+
+  test("Should have stats data", function() {
+    expect(res.getBody().data).to.be.an("object");
+    expect(res.getBody().data.totalLenses).to.be.a("number");
+    expect(res.getBody().data.totalStockValue).to.be.a("number");
+    expect(res.getBody().data.lowStockItems).to.be.a("number");
+  });
+}

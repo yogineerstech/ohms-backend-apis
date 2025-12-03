@@ -1,0 +1,50 @@
+meta {
+  name: Create Lens Stock - Validation Error Test
+  type: http
+  seq: 16
+}
+
+post {
+  url: {{baseUrl}}/api/v1/lens-stock
+  body: json
+  auth: none
+}
+
+headers {
+  Authorization: Bearer {{adminToken}}
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "lensName": "",
+    "lensType": "INVALID_TYPE",
+    "lensCategory": "INVALID_CATEGORY",
+    "manufacturer": "Test Manufacturer"
+  }
+}
+
+tests {
+  test("Status should be 400", function() {
+    expect(res.getStatus()).to.equal(400);
+  });
+
+  test("Response should be JSON", function() {
+    expect(res.getHeader("content-type")).to.contain("application/json");
+  });
+
+  test("Should have validation errors", function() {
+    expect(res.getBody().success).to.be.false;
+    expect(res.getBody().message).to.equal("Validation failed");
+    expect(res.getBody().errors).to.be.an("array");
+  });
+
+  test("Should have required field errors", function() {
+    const errors = res.getBody().errors;
+    const errorFields = errors.map(e => e.field);
+    expect(errorFields).to.include("model");
+    expect(errorFields).to.include("power");
+    expect(errorFields).to.include("lensoCost");
+    expect(errorFields).to.include("patientCost");
+  });
+}

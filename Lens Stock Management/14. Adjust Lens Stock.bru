@@ -1,0 +1,42 @@
+meta {
+  name: Adjust Lens Stock
+  type: http
+  seq: 14
+}
+
+post {
+  url: {{baseUrl}}/api/v1/lens-stock/{{createdLensStockId}}/adjust-stock
+  body: json
+  auth: none
+}
+
+headers {
+  Authorization: Bearer {{adminToken}}
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "newQuantity": 60,
+    "reason": "Physical stock count adjustment after inventory audit"
+  }
+}
+
+tests {
+  test("Status should be 200", function() {
+    expect(res.getStatus()).to.equal(200);
+  });
+
+  test("Response should be JSON", function() {
+    expect(res.getHeader("content-type")).to.contain("application/json");
+  });
+
+  test("Should have success field", function() {
+    expect(res.getBody().success).to.be.true;
+  });
+
+  test("Should have adjusted lens stock", function() {
+    expect(res.getBody().data).to.be.an("object");
+    expect(res.getBody().data.stockQuantity).to.equal(60);
+  });
+}

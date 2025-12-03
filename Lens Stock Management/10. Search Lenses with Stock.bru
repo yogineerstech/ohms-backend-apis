@@ -1,0 +1,39 @@
+meta {
+  name: Search Lenses with Stock
+  type: http
+  seq: 10
+}
+
+get {
+  url: {{baseUrl}}/api/v1/lens-stock/search?q=Alcon&lensType=IOL&limit=20
+  body: none
+  auth: none
+}
+
+params:query {
+  q: Alcon
+  lensType: IOL
+  limit: 20
+}
+
+headers {
+  Authorization: Bearer {{adminToken}}
+}
+
+tests {
+  test("Status should be 200", function() {
+    expect(res.getStatus()).to.equal(200);
+  });
+
+  test("Response should be JSON", function() {
+    expect(res.getHeader("content-type")).to.contain("application/json");
+  });
+
+  test("Should have success field", function() {
+    expect(res.getBody().success).to.be.true;
+  });
+
+  test("Should have data array", function() {
+    expect(res.getBody().data).to.be.an("array");
+  });
+}

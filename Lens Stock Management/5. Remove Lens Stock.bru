@@ -1,0 +1,41 @@
+meta {
+  name: Remove Lens Stock
+  type: http
+  seq: 5
+}
+
+post {
+  url: {{baseUrl}}/api/v1/lens-stock/{{createdLensStockId}}/remove-stock
+  body: json
+  auth: none
+}
+
+headers {
+  Authorization: Bearer {{adminToken}}
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "quantity": 5,
+    "reason": "Surgery usage - Patient IOL implantation"
+  }
+}
+
+tests {
+  test("Status should be 200", function() {
+    expect(res.getStatus()).to.equal(200);
+  });
+
+  test("Response should be JSON", function() {
+    expect(res.getHeader("content-type")).to.contain("application/json");
+  });
+
+  test("Should have success field", function() {
+    expect(res.getBody().success).to.be.true;
+  });
+
+  test("Should have updated lens data", function() {
+    expect(res.getBody().data).to.be.an("object");
+  });
+}

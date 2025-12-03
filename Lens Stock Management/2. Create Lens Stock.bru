@@ -1,0 +1,55 @@
+meta {
+  name: Create Lens Stock
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{baseUrl}}/api/v1/lens-stock
+  body: json
+  auth: none
+}
+
+headers {
+  Authorization: Bearer {{adminToken}}
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "lensName": "test Alcon AcrySof IQ Monofocal IOL",
+    "lensType": "IOL",
+    "lensCategory": "MONOFOCAL",
+    "manufacturer": "Alcon",
+    "model": "SN60WF",
+    "power": "22.5D",
+    "lensoCost": 8500.00,
+    "patientCost": 12000.00,
+    "stockQuantity": 50,
+    "reorderLevel": 10,
+    "batchNumber": "LOT2024001",
+    "expiryDate": "2026-12-31T00:00:00.000Z"
+  }
+}
+
+tests {
+  test("Status should be 201", function() {
+    expect(res.getStatus()).to.equal(201);
+  });
+  
+  test("Response should be JSON", function() {
+    expect(res.getHeader("content-type")).to.contain("application/json");
+  });
+  
+  test("Should have success field", function() {
+    expect(res.getBody().success).to.be.true;
+  });
+  
+  test("Should have created lens data", function() {
+    expect(res.getBody().data).to.be.an("object");
+    expect(res.getBody().data.lensName).to.equal("test Alcon AcrySof IQ Monofocal IOL");
+  });
+  
+  // Store the created lens ID for subsequent tests
+  bru.setVar("createdLensStockId", res.getBody().data.id);
+}

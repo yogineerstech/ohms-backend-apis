@@ -1,0 +1,55 @@
+meta {
+  name: Create Extended Depth Focus IOL
+  type: http
+  seq: 13
+}
+
+post {
+  url: {{baseUrl}}/api/v1/lens-stock
+  body: json
+  auth: none
+}
+
+headers {
+  Authorization: Bearer {{adminToken}}
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "lensName": "Bausch + Lomb enVista MX60E",
+    "lensType": "IOL",
+    "lensCategory": "EXTENDED_DEPTH_FOCUS",
+    "manufacturer": "Bausch + Lomb",
+    "model": "MX60E",
+    "power": "23.0D",
+    "lensoCost": 13500.00,
+    "patientCost": 20000.00,
+    "stockQuantity": 15,
+    "reorderLevel": 6,
+    "batchNumber": "BL2024E01",
+    "expiryDate": "2027-09-30T00:00:00.000Z"
+  }
+}
+
+tests {
+  test("Status should be 201", function() {
+    expect(res.getStatus()).to.equal(201);
+  });
+
+  test("Response should be JSON", function() {
+    expect(res.getHeader("content-type")).to.contain("application/json");
+  });
+
+  test("Should have success field", function() {
+    expect(res.getBody().success).to.be.true;
+  });
+
+  test("Should have created extended depth focus lens data", function() {
+    expect(res.getBody().data).to.be.an("object");
+    expect(res.getBody().data.lensCategory).to.equal("EXTENDED_DEPTH_FOCUS");
+  });
+
+  // Store the created lens ID for subsequent tests
+  bru.setVar("createdEDFLensId", res.getBody().data.id);
+}
